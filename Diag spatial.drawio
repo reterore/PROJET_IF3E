@@ -1,0 +1,25 @@
+<mxfile host="app.diagrams.net" modified="2023-10-19T21:36:38.690Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="Gbhxlr3MQ4Fr3wykHpNe" version="22.0.5" type="device">
+  <diagram name="Page-1" id="Eg9oQMvYRsQTwpf8CeLY">
+    <mxGraphModel dx="913" dy="502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XfBocAhsxJMQKwtfyh-H-1" value="NAVETTE" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="120" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XfBocAhsxJMQKwtfyh-H-2" value="VAISSEAU" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="120" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XfBocAhsxJMQKwtfyh-H-3" value="EQUIPAGE" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="120" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XfBocAhsxJMQKwtfyh-H-4" value="SPATIONAUTE" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="120" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XfBocAhsxJMQKwtfyh-H-5" value="COMPTE COMMERCANT" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="120" width="140" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
