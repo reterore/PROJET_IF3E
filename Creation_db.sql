@@ -16,7 +16,7 @@ CREATE TABLE space_merchant (
     password VARCHAR(30),
     first_name VARCHAR(20),
     last_name VARCHAR(20),
-    intergalactic_credit INT
+    intergalactic_credits INT
 );
 
 CREATE TABLE spaceship (
@@ -71,7 +71,7 @@ CREATE TABLE cargo_type (
 
 CREATE TABLE mission (
     id_mission INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(25),
+    name TEXT,
     id_cargo_type INT,
     id_planet INT,
     id_ability INT,
@@ -86,12 +86,24 @@ CREATE TABLE mission (
 
 
 
+INSERT INTO ability(name, description) VALUES ("Sneaky", "increase your chance to succeed in missions that requiere stealth");
+INSERT INTO ability(name, description) VALUES ("Pilot", "increase your chance to succeed in missions that requiere great maniement of spaceship");
+INSERT INTO ability(name, description) VALUES ("ColdBlood", "increase your chance to succeed in missions that requiere great gestion of stress");
+INSERT INTO ability(name, description) VALUES ("Genius", "increase your chance to succeed in missions that requiere great intelligence");
 
+INSERT INTO cargo_type(type) VALUES ("mineral");
+INSERT INTO cargo_type(type) VALUES ("food");
+INSERT INTO cargo_type(type) VALUES ("weaponery");
+INSERT INTO cargo_type(type) VALUES ("component");
 
-INSERT INTO space_merchant(id_space_merchant, login, password, first_name, last_name, birth_date, intergalactic_credit)
-VALUES (1, 'guild_account', 'guild_password', 'intergalactic', 'guild', '2000-01-01', 1000000);
+INSERT INTO planet(name, distance_from_earth) VALUES("mars", 21);
 
-INSERT INTO spaceship(name_spaceship, crew_capacity_spaceship, cargo_capacity_kg, max_travel_range_light_year, price_spaceship)
+INSERT INTO space_merchant(id_space_merchant, login, password, first_name, last_name, intergalactic_credits)
+VALUES (1, 'guild_account', 'guild_password', 'intergalactic', 'guild', 1000000);
+
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_space_merchant, reward, description) VALUES ("send Laser to mars", 1, 1, 1, 1, 1000, "you have to bring laser to mars");
+
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_kg, max_travel_range_light_year, price)
 VALUES("T-wings", 2, 2000, 5, 1500);
 
 INSERT into merchant_spaceship(id_space_merchant, id_spaceship)
