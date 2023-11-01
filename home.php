@@ -16,7 +16,7 @@
 <?php
 session_start();
 $id_merchant = $_SESSION['id_merchant'];
-$db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
+$db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "sa", "rasta");
 $req = $db->prepare("SELECT first_name, last_name, intergalactic_credits, id_merchant FROM merchant WHERE id_merchant = :id_merchant");
 $req->bindParam(':id_merchant', $id_merchant, PDO::PARAM_STR);
 $req->execute();
@@ -38,7 +38,7 @@ include('header.php');
             <ul>
                 <li><strong>Filter: </strong></li>
                 <li role="list" dir="rtl">
-                    <label for="selected_cargo">Cargo:</label>
+                    <label for="selected_cargo">:Cargo</label>
                     <select name="selected_cargo" id="selected_cargo">
                         <option value="">All</option>
                         <?php
@@ -51,7 +51,7 @@ include('header.php');
                     </select>
                 </li>
                 <li role="list" dir="rtl">
-                    <label for="selected_planet">Planet:</label>
+                    <label for="selected_planet">:Planet</label>
                     <select name="selected_planet" id="selected_planet">
                         <option value="">All</option>
                         <?php
@@ -64,7 +64,7 @@ include('header.php');
                     </select>
                 </li>
                 <li role="list" dir="rtl">
-                    <label for="selected_ability">ability:</label>
+                    <label for="selected_ability">:ability</label>
                     <select name="selected_ability" id="selected_ability">
                         <option value="">All</option>
                         <?php
@@ -77,7 +77,7 @@ include('header.php');
                     </select>
                 </li>
                 <li role="list" dir="rtl">
-                    <label for="selected_reward">Reward:</label>
+                    <label for="selected_reward">:Minimal Reward</label>
                     <input type="text" name="selected_reward" id="selected_reward">
                 </li>
                 <li>
@@ -135,7 +135,8 @@ include('header.php');
                     echo "<td>" . $affichage[2] . "</td>";
                     echo "<td>" . $affichage[3] . "</td>";
                     echo "<td>" . $affichage[4] . " ¢</td>";
-                    echo "<td><a href='consult_mission.php?id=" . $affichage[5] . "'>more info</a></td>";
+
+                    echo "<td><a href='consult_mission.php?id_mission=" . $affichage[5] . "'>>>more info<<</a></td>";
                     echo "</tr>";
                 }
 

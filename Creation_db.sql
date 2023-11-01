@@ -1,3 +1,6 @@
+GRANT ALL ON *.* TO 'sa'@'localhost' IDENTIFIED BY 'rasta' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
 DROP TABLE IF EXISTS mission;
 DROP TABLE IF EXISTS merchant_crew;
 DROP TABLE IF EXISTS crew_member;

@@ -16,7 +16,6 @@ include('header.php');
                 <?php
                 $id_spaceship = $_GET['id_spaceship'];
                 $purchasePrice = $_GET['price'];
-                $db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
                 $id_merchant = $_SESSION['id_merchant'];
 
                 // Récupérer les fonds actuels du marchand

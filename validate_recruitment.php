@@ -15,7 +15,6 @@ include('header.php');
                 <?php
                 $id_crew_member = $_GET['id_crew_member'];
                 $recruitmentPrice = $_GET['recruitment_price'];
-                $db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
                 $id_merchant = $_SESSION['id_merchant'];
 
                 // Récupérer les fonds actuels du marchand

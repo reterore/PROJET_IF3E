@@ -10,45 +10,6 @@ session_start();
 include('header.php');
 ?>
 
-<?php
-
-$mission_name = "";
-$cargo_type = "";
-$planet = "";
-$ability = "";
-$reward = 0;
-$description = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $mission_name = $_POST["mission_name"];
-    $cargo_type = $_POST["cargo_type"];
-    $planet = $_POST["planet"];
-    $ability = $_POST["ability"];
-    $reward = $_POST["reward"];
-    $description = $_POST["description"];
-
-    $insertMission = $db->prepare("INSERT INTO mission (name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES (:mission_name, :cargo_type, :planet, :ability, 1, :reward, :description)");
-    $insertMission->bindParam(':mission_name', $mission_name, PDO::PARAM_STR);
-    $insertMission->bindParam(':cargo_type', $cargo_type, PDO::PARAM_INT);
-    $insertMission->bindParam(':planet', $planet, PDO::PARAM_INT);
-    $insertMission->bindParam(':ability', $ability, PDO::PARAM_INT);
-    $insertMission->bindParam(':reward', $reward, PDO::PARAM_INT);
-    $insertMission->bindParam(':description', $description, PDO::PARAM_STR);
-
-    if ($insertMission->execute()) {
-        echo "<script>alert('Mission created successfully.');</script>";
-        $mission_name = "";
-        $cargo_type = "";
-        $planet = "";
-        $ability = "";
-        $reward = 0;
-        $description = "";
-    } else {
-        echo "<script>alert('An error occurred while creating the mission. Please try again.');</script>";
-    }
-}
-?>
-
 <body>
 <main class="container">
     <article class="grid">

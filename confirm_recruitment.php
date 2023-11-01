@@ -19,7 +19,6 @@ include('header.php');
                     $id_crew_member = $_GET['id_crew_member'];
 
                     // Create a database connection (replace with your actual database connection code)
-                    $db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
                     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                     // Fetch crew member information based on id_crew_member

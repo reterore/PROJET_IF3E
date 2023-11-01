@@ -15,8 +15,6 @@ include('header.php');
     <article class="grid">
         <div>
             <?php
-            $db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
-
             // Vérifier si l'utilisateur est connecté
             if (isset($_SESSION['id_merchant'])) {
                 $spaceMerchantId = $_SESSION['id_merchant'];

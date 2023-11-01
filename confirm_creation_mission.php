@@ -15,8 +15,6 @@ include('header.php');
         <section class="grid">
             <div>
                 <?php
-                $db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
-
                 $mission_name = "";
                 $cargo_type = "";
                 $planet = "";
@@ -50,10 +48,10 @@ include('header.php');
                         $ability = "";
                         $reward = 0;
                         $description = "";
-                        echo "<br><br><div><a href='home.php' role='btn' class='btn secondary'>Back to Mission</a></div>";
+                        echo "<br><br><div><a href='home.php' role='btn' class='btn secondary'>Back to Missions</a></div>";
                     } else {
                         echo "An error occurred while creating the mission. Please try again!";
-                        echo "<br><div><a href='home.php' role='btn' class='btn secondary'>Back to Mission</a></div>";
+                        echo "<br><div><a href='home.php' role='btn' class='btn secondary'>Back to Missions</a></div>";
                     }
                 }
                 ?>
