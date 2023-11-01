@@ -13,15 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Vérifiez si le login et le mot de passe correspondent dans la base de données
-    $checkUser = $db->prepare("SELECT * FROM space_merchant WHERE login = :login AND password = :password");
+    $checkUser = $db->prepare("SELECT * FROM merchant WHERE login = :login AND password = :password");
     $checkUser->bindParam(':login', $login, PDO::PARAM_STR);
     $checkUser->bindParam(':password', $password, PDO::PARAM_STR);
     $checkUser->execute();
-
-    if ($checkUser->rowCount() == 1) {
+    $user = $checkUser->fetch();
+    echo "$user[0]";
+    if ($user != null) {
         // Redirigez vers la page d'accueil avec les paramètres d'UR
         session_start();
-        $_SESSION['login'] = $login;
+        $_SESSION['id_merchant'] = $user[0];
         header("Location: home.php");
         exit;
     } else {

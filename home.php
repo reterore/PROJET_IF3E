@@ -3,113 +3,147 @@
 
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="styles.css"> <!-- Ajout de votre fichier CSS personnalisé -->
+    <link rel="stylesheet" href="styles.css">
     <title>Welcome to homepage!</title>
+
+    <style>
+        .btn-container {
+            display: flex;
+            align-items: center;
+        }</style>
 </head>
-
-
 
 <?php
 session_start();
-    $login = $_SESSION['login'];
-    $db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
-    $req = $db->prepare("SELECT first_name, last_name, intergalactic_credits, id_space_merchant FROM space_merchant WHERE login = :login");
-    $req->bindParam(':login', $login, PDO::PARAM_STR);
-    $req->execute();
-    $data = $req->fetch();
-    $first_name = $data[0];
-    $last_name = $data[1];
-    $intergalactic_credits = $data[2];
-    $id = $data[3];
+$id_merchant = $_SESSION['id_merchant'];
+$db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
+$req = $db->prepare("SELECT first_name, last_name, intergalactic_credits, id_merchant FROM merchant WHERE id_merchant = :id_merchant");
+$req->bindParam(':id_merchant', $id_merchant, PDO::PARAM_STR);
+$req->execute();
+$data = $req->fetch();
+$first_name = $data[0];
+$last_name = $data[1];
+$intergalactic_credits = $data[2];
+$id = $data[3];
 ?>
 
 <body>
 <?php
-    include('header.php');
+include('header.php');
 ?>
 
 <main class="container">
     <nav>
-        <ul>
-        </ul>
-        <ul>
-            <li><strong>Filter: </strong></li>
-            <li role="list" dir="rtl">
-                <a href="#" aria-haspopup="listbox">Type</a>
-                <ul role="listbox">
-                    <li><a>Action</a></li>
-                    <li><a>Another action</a></li>
-                    <li><a>Something else here</a></li>
-                </ul>
-            </li>
-            <li role="list" dir="rtl">
-                <a href="#" aria-haspopup="listbox">planet</a>
-                <?php
-                $planets = $db->prepare("SELECT name FROM planet");
-                $planets->execute(); // Execute the prepared statement to fetch data
-
-                while ($planet = $planets->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<ul role='listbox'>";
-                    echo "<li>" . $planet['name'] . "</li>";
-                    echo "</ul>";
-                }
-                ?>
-            </li>
-            <li></li>
-            <li role="list" dir="rtl">
-                <a href="#" aria-haspopup="listbox">Reward</a>
-                <ul role="listbox">
-                    <li><a>Action</a></li>
-                    <li><a>Another action</a></li>
-                    <li><a>Something else here</a></li>
-                </ul>
-            </li>
-        </ul>
+        <form method="post">
+            <ul>
+                <li><strong>Filter: </strong></li>
+                <li role="list" dir="rtl">
+                    <label for="selected_cargo">Cargo:</label>
+                    <select name="selected_cargo" id="selected_cargo">
+                        <option value="">All</option>
+                        <?php
+                        $cargos = $db->prepare("SELECT type FROM cargo_type");
+                        $cargos->execute();
+                        while ($cargo = $cargos->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<option value='" . $cargo['type'] . "'>" . $cargo['type'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </li>
+                <li role="list" dir="rtl">
+                    <label for="selected_planet">Planet:</label>
+                    <select name="selected_planet" id="selected_planet">
+                        <option value="">All</option>
+                        <?php
+                        $planets = $db->prepare("SELECT name FROM planet");
+                        $planets->execute();
+                        while ($planet = $planets->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<option value='" . $planet['name'] . "'>" . $planet['name'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </li>
+                <li role="list" dir="rtl">
+                    <label for="selected_ability">ability:</label>
+                    <select name="selected_ability" id="selected_ability">
+                        <option value="">All</option>
+                        <?php
+                        $abilities = $db->prepare("SELECT name FROM ability");
+                        $abilities->execute();
+                        while ($ability = $abilities->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<option value='" . $ability['name'] . "'>" . $ability['name'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </li>
+                <li role="list" dir="rtl">
+                    <label for="selected_reward">Reward:</label>
+                    <input type="text" name="selected_reward" id="selected_reward">
+                </li>
+                <li>
+                    <br>
+                    <button type="submit">Filter Missions</button>
+                </li>
+            </ul>
+        </form>
     </nav>
     <header>
-        <a href="mission_explanation.php" role="btn" class="btn secondary">more about missions</a>
+        <div class="btn-container">
+            <a href="mission_explanation.php" role="btn" class="btn secondary">more about missions</a>
+            <span>&nbsp;|&nbsp;</span>
+            <a href="create_mission.php" role="btn" class="btn secondary">Create a mission</a>
+        </div>
     </header>
     <section class="grid">
         <div>
             <?php
-            // Votre code de connexion à la base de données
+            $selected_cargo = isset($_POST['selected_cargo']) ? $_POST['selected_cargo'] : '';
+            $selected_planet = isset($_POST['selected_planet']) ? $_POST['selected_planet'] : '';
+            $selected_ability = isset($_POST['selected_ability']) ? $_POST['selected_ability'] : '';
+            $selected_reward = isset($_POST['selected_reward']) ? (int)$_POST['selected_reward'] : 0;
 
             $query = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.id_mission 
-                                          FROM mission 
-                                          JOIN cargo_type ON mission.id_cargo_type = cargo_type.id_cargo_type
-                                          JOIN planet ON mission.id_planet = planet.id_planet 
-                                          JOIN ability ON mission.id_ability = ability.id_ability");
+                                  FROM mission 
+                                  JOIN cargo_type ON mission.id_cargo_type = cargo_type.id_cargo_type
+                                  JOIN planet ON mission.id_planet = planet.id_planet 
+                                  JOIN ability ON mission.id_ability = ability.id_ability
+                                  WHERE (:selected_cargo = '' OR cargo_type.type = :selected_cargo)
+                                  AND (:selected_planet = '' OR planet.name = :selected_planet)
+                                  AND (:selected_ability = '' OR ability.name = :selected_ability)
+                                  AND mission.reward >= :selected_reward;");
+            $query->bindParam(':selected_cargo', $selected_cargo, PDO::PARAM_STR);
+            $query->bindParam(':selected_planet', $selected_planet, PDO::PARAM_STR);
+            $query->bindParam(':selected_ability', $selected_ability, PDO::PARAM_STR);
+            $query->bindParam(':selected_reward', $selected_reward, PDO::PARAM_INT);
             $query->execute();
-            $affichage = $query->fetch();
+
             if ($query->rowCount() > 0) {
                 echo "<table border='1'>
-        <tr>
-            <th>Mission</th>
-            <th>Cargo</th>
-            <th>Planet</th>
-            <th>Ability</th>
-            <th>Reward</th>
-            <th>check details</th>
-        </tr>";
+                    <tr>
+                        <th>Mission</th>
+                        <th>Cargo</th>
+                        <th>Planet</th>
+                        <th>Ability</th>
+                        <th>Reward</th>
+                        <th>check details</th>
+                    </tr>";
 
-                while ($affichage != null) {
+                while ($affichage = $query->fetch()) {
                     echo "<tr>";
                     echo "<td>" . $affichage[0] . "</td>";
                     echo "<td>" . $affichage[1] . "</td>";
-                    echo "<td>" . $affichage[2] . "</td>";  // Ah ça il aime pas dis donc
+                    echo "<td>" . $affichage[2] . "</td>";
                     echo "<td>" . $affichage[3] . "</td>";
                     echo "<td>" . $affichage[4] . " ¢</td>";
-
                     echo "<td><a href='consult_mission.php?id=" . $affichage[5] . "'>more info</a></td>";
-                    $affichage = $query->fetch();
+                    echo "</tr>";
                 }
 
                 echo "</table>";
             } else {
-                echo "Plus aucune mission, revenez plus tard.";
+                echo "No missions found based on your filter criteria.";
             }
             ?>
-
         </div>
     </section>
 </main>

@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Vérifiez si le login existe déjà dans la base de données
-    $checkLogin = $db->prepare("SELECT COUNT(*) FROM space_merchant WHERE login = :login");
+    $checkLogin = $db->prepare("SELECT COUNT(*) FROM merchant WHERE login = :login");
     $checkLogin->bindParam(':login', $login, PDO::PARAM_STR);
     $checkLogin->execute();
     $count = $checkLogin->fetchColumn();
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>alert('Login already exists. Please choose a different login.')</script>";
     } else {
         // Le login n'existe pas, insérez les données dans la base de données
-        $insertUser = $db->prepare("INSERT INTO space_merchant (first_name, last_name, login, password, intergalactic_credits) VALUES (:first_name, :last_name, :login, :password, 3000)");
+        $insertUser = $db->prepare("INSERT INTO merchant (first_name, last_name, login, password, intergalactic_credits) VALUES (:first_name, :last_name, :login, :password, 30000)");
         $insertUser->bindParam(':first_name', $first_name, PDO::PARAM_STR);
         $insertUser->bindParam(':last_name', $last_name, PDO::PARAM_STR);
         $insertUser->bindParam(':login', $login, PDO::PARAM_STR);
