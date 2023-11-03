@@ -33,9 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <body>
-<!-- Nav -->
-
-<!-- Main -->
 <main class="container">
     <article class="grid">
         <a href="login.php" role="btn" class="btn secondary">go back</a>

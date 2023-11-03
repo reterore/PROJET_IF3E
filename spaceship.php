@@ -20,7 +20,7 @@ include('header.php');
                     <?php
                     // Votre code de connexion à la base de données
 
-                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_kg, max_travel_range_parsec, price, id_spaceship FROM spaceship");
+                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, id_spaceship FROM spaceship");
                     $query->execute();
                     $info = $query->fetch();
                     if ($query->rowCount() > 0) {
@@ -28,7 +28,7 @@ include('header.php');
         <tr>
             <th>Model</th>
             <th>Crew capacity (pers.)</th>
-            <th>Cargo capacity (kg)</th>
+            <th>Cargo capacity (ton)</th>
             <th>Max range (parsec)</th>
             <th>Price</th>
             <th>Buy</th>

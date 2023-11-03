@@ -36,13 +36,12 @@ include('header.php');
     <nav>
         <form method="post">
             <ul>
-                <li><strong>Filter: </strong></li>
                 <li role="list" dir="rtl">
                     <label for="selected_cargo">:Cargo</label>
                     <select name="selected_cargo" id="selected_cargo">
                         <option value="">All</option>
                         <?php
-                        $cargos = $db->prepare("SELECT type FROM cargo_type");
+                        $cargos = $db->prepare("SELECT type FROM cargo_type ORDER BY type");
                         $cargos->execute();
                         while ($cargo = $cargos->fetch(PDO::FETCH_ASSOC)) {
                             echo "<option value='" . $cargo['type'] . "'>" . $cargo['type'] . "</option>";
@@ -55,7 +54,7 @@ include('header.php');
                     <select name="selected_planet" id="selected_planet">
                         <option value="">All</option>
                         <?php
-                        $planets = $db->prepare("SELECT name FROM planet");
+                        $planets = $db->prepare("SELECT name FROM planet ORDER BY name");
                         $planets->execute();
                         while ($planet = $planets->fetch(PDO::FETCH_ASSOC)) {
                             echo "<option value='" . $planet['name'] . "'>" . $planet['name'] . "</option>";
@@ -68,7 +67,7 @@ include('header.php');
                     <select name="selected_ability" id="selected_ability">
                         <option value="">All</option>
                         <?php
-                        $abilities = $db->prepare("SELECT name FROM ability");
+                        $abilities = $db->prepare("SELECT name FROM ability ORDER BY name");
                         $abilities->execute();
                         while ($ability = $abilities->fetch(PDO::FETCH_ASSOC)) {
                             echo "<option value='" . $ability['name'] . "'>" . $ability['name'] . "</option>";
@@ -82,7 +81,7 @@ include('header.php');
                 </li>
                 <li>
                     <br>
-                    <button type="submit">Filter Missions</button>
+                    <button type="submit">>Filter Missions<</button>
                 </li>
             </ul>
         </form>
@@ -110,11 +109,14 @@ include('header.php');
                                   WHERE (:selected_cargo = '' OR cargo_type.type = :selected_cargo)
                                   AND (:selected_planet = '' OR planet.name = :selected_planet)
                                   AND (:selected_ability = '' OR ability.name = :selected_ability)
-                                  AND mission.reward >= :selected_reward;");
+                                  AND mission.reward >= :selected_reward
+                                  AND mission.done = 0
+                                  AND mission.id_merchant <> :id_merchant  ;");
             $query->bindParam(':selected_cargo', $selected_cargo, PDO::PARAM_STR);
             $query->bindParam(':selected_planet', $selected_planet, PDO::PARAM_STR);
             $query->bindParam(':selected_ability', $selected_ability, PDO::PARAM_STR);
             $query->bindParam(':selected_reward', $selected_reward, PDO::PARAM_INT);
+            $query->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
             $query->execute();
 
             if ($query->rowCount() > 0) {
@@ -125,7 +127,7 @@ include('header.php');
                         <th>Planet</th>
                         <th>Ability</th>
                         <th>Reward</th>
-                        <th>check details</th>
+                        <th>See details</th>
                     </tr>";
 
                 while ($affichage = $query->fetch()) {
@@ -136,7 +138,7 @@ include('header.php');
                     echo "<td>" . $affichage[3] . "</td>";
                     echo "<td>" . $affichage[4] . " ¢</td>";
 
-                    echo "<td><a href='consult_mission.php?id_mission=" . $affichage[5] . "'>>>more info<<</a></td>";
+                    echo "<td><a href='consult_mission.php?id_mission=" . $affichage[5] . "'>| more info |</a></td>";
                     echo "</tr>";
                 }
 

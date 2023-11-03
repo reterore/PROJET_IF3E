@@ -41,7 +41,7 @@
                                         echo "<p><strong>Description:</strong> " . $mission[5] . "</p>";
                                         echo "<a href='home.php' role='button' class='secondary'>Go Back to Mission</a>";
                                         echo" ";
-                                        echo "<a href='start_mission.php?$id_mission' role='button' class='btn primary'>Start this Mission</a>";
+                                        echo "<a href='choose_spaceship.php?id_mission=$id_mission' role='button' class='btn primary'>Start this Mission</a>";
                                         // Ajoutez ici d'autres détails de la mission si nécessaire
                                     } else {
                                         echo "Mission not found.";

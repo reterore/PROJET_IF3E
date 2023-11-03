@@ -21,7 +21,7 @@ include('header.php');
                     // Create a database connection (replace with your actual database connection code)
 
                     // Fetch spaceship information based on id_spaceship
-                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_kg, max_travel_range_parsec, price FROM spaceship WHERE id_spaceship = :id_spaceship");
+                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price FROM spaceship WHERE id_spaceship = :id_spaceship");
                     $query->bindParam(':id_spaceship', $id_spaceship, PDO::PARAM_INT);
                     $query->execute();
                     $spaceship = $query->fetch();
@@ -38,7 +38,7 @@ include('header.php');
                         echo "<h2>Spaceship Details</h2>";
                         echo "<p><strong>Name:</strong> " . $spaceship['name'] . "</p>";
                         echo "<p><strong>Crew Capacity:</strong> " . $spaceship['crew_capacity'] . "</p>";
-                        echo "<p><strong>Cargo Capacity (kg):</strong> " . $spaceship['cargo_capacity_kg'] . "</p>";
+                        echo "<p><strong>Cargo Capacity (kg):</strong> " . $spaceship['cargo_capacity_ton'] . "</p>";
                         echo "<p><strong>Max Travel Range (parsec):</strong> " . $spaceship['max_travel_range_parsec'] . "</p>";
                         echo "<p><strong>Price:</strong> " . $spaceship['price'] . " ¢</p>";
 

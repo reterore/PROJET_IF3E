@@ -18,9 +18,7 @@ include('header.php');
         <section class="grid">
             <div>
                 <?php
-                // Votre code de connexion à la base de données
-
-                $query = $db->prepare("SELECT first_name, last_name, id_ability, recruitment_price, id_crew_member FROM crew_member WHERE in_a_team = 0");
+                 $query = $db->prepare("SELECT first_name, last_name, id_ability, recruitment_price, id_crew_member FROM crew_member WHERE in_a_team = 0 ORDER BY recruitment_price");
                 $query->execute();
                 $info = $query->fetch();
                 if ($query->rowCount() > 0) {
