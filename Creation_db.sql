@@ -27,8 +27,7 @@ CREATE TABLE spaceship (
     crew_capacity INT,
     cargo_capacity_ton INT,
     max_travel_range_parsec INT,
-    price INT,
-    image LONGBLOB
+    price INT
 );
 
 CREATE TABLE merchant_spaceship (
