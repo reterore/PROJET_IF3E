@@ -21,7 +21,7 @@
                                     // Connexion à la base de données (à remplacer par vos propres informations de connexion)
 
                                     // Préparez la requête pour récupérer les détails de la mission
-                                    $query = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.description 
+                                    $query = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.description, planet.distance_from_earth 
                                                             FROM mission 
                                                             JOIN cargo_type ON mission.id_cargo_type = cargo_type.id_cargo_type
                                                             JOIN planet ON mission.id_planet = planet.id_planet 
@@ -35,7 +35,7 @@
                                         // Affichez les détails de la mission
                                         echo "<h1>Summary of Mission:<p> " . $mission[0] . "</p></h1>";
                                         echo "<p><strong>Cargo Type:</strong> " . $mission[1] . "</p>";
-                                        echo "<p><strong>Planet:</strong> " . $mission[2] . "</p>";
+                                        echo "<p><strong>Planet:</strong> " . $mission[2] . " (" . $mission[6] . " parsecs) </p>";
                                         echo "<p><strong>Useful Ability:</strong> " . $mission[3] . "</p>";
                                         echo "<p><strong>Mission Reward:</strong> " . $mission[4] . " ¢</p>";
                                         echo "<p><strong>Description:</strong> " . $mission[5] . "</p>";

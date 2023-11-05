@@ -1,6 +1,6 @@
 <?php
 $id_merchant = $_SESSION['id_merchant'];
-$db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "sa", "rasta");
+$db = new PDO("mysql:host=localhost; dbname=space_merchant; charset=utf8", "sa", "rasta");
 $req = $db->prepare("SELECT first_name, last_name, intergalactic_credits, id_merchant FROM merchant WHERE id_merchant = :id_merchant");
 $req->bindParam(':id_merchant', $id_merchant, PDO::PARAM_STR);
 $req->execute();

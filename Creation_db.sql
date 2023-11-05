@@ -1,3 +1,7 @@
+CREATE SCHEMA IF NOT EXISTS space_merchant;
+
+USE space_merchant;
+
 GRANT ALL ON *.* TO 'sa'@'localhost' IDENTIFIED BY 'rasta' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 

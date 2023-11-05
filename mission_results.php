@@ -128,7 +128,7 @@ include('header.php');
                 echo "<h1>Your Mission " . ($missionSuccess ? "Succeed!" : "Failed...") . "</h1>";
                 echo "<p>You " . ($missionSuccess ? "won $reward ¢ and $fnameRequester $lnameRequester won $MissionGain ¢" : "lost $distance ¢") . "</p>";
                 echo "<a href='home.php' class='secondary'>Go back to mission</a>";
-            }
+               }
             ?>
         </div>
     </article>
