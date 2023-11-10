@@ -6,7 +6,7 @@
 </head>
 
 <?php
-$db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "root", "");
+$db = new PDO("mysql:host=localhost; dbname=space_merchant; charset=utf8", "sa", "rasta");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login = $_POST["login"];
@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $checkUser->bindParam(':password', $password, PDO::PARAM_STR);
     $checkUser->execute();
     $user = $checkUser->fetch();
-    echo "$user[0]";
     if ($user != null) {
         // Redirigez vers la page d'accueil avec les paramètres d'UR
         session_start();

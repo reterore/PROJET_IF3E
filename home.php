@@ -16,7 +16,11 @@
 <?php
 session_start();
 $id_merchant = $_SESSION['id_merchant'];
-$db = new PDO("mysql:host=localhost; dbname=test1_projet; charset=utf8", "sa", "rasta");
+?>
+
+<body>
+<?php
+include('header.php');
 $req = $db->prepare("SELECT first_name, last_name, intergalactic_credits, id_merchant FROM merchant WHERE id_merchant = :id_merchant");
 $req->bindParam(':id_merchant', $id_merchant, PDO::PARAM_STR);
 $req->execute();
@@ -27,17 +31,12 @@ $intergalactic_credits = $data[2];
 $id = $data[3];
 ?>
 
-<body>
-<?php
-include('header.php');
-?>
-
 <main class="container">
     <nav>
         <form method="post">
             <ul>
                 <li role="list" dir="rtl">
-                    <label for="selected_cargo">:Cargo</label>
+                    <label for="selected_cargo">:Cargo Type</label>
                     <select name="selected_cargo" id="selected_cargo">
                         <option value="">All</option>
                         <?php

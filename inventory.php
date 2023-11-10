@@ -48,11 +48,12 @@ include('header.php');
             <?php
             if (isset($_SESSION['id_merchant'])) {
                 $spaceMerchantId = $_SESSION['id_merchant'];
-                $spaceshipsQuery = $db->prepare("SELECT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec
+                $spaceshipsQuery = $db->prepare("SELECT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, s.image
                                 FROM spaceship s
                                 INNER JOIN merchant_spaceship ms ON s.id_spaceship = ms.id_spaceship
                                 INNER JOIN merchant m ON m.id_merchant = ms.id_merchant
-                                WHERE m.id_merchant = :id_merchant");
+                                WHERE m.id_merchant = :id_merchant
+                                ORDER BY max_travel_range_parsec");
                 $spaceshipsQuery->bindParam(':id_merchant', $spaceMerchantId, PDO::PARAM_INT);
                 $spaceshipsQuery->execute();
                 $spaceships = $spaceshipsQuery->fetch(); // Utilisez fetchAll() pour obtenir tous les résultats
@@ -62,7 +63,7 @@ include('header.php');
                     // Afficher les données des vaisseaux spatiaux
                     while ($spaceships != null) {
                         echo "<details>";
-                        echo "<summary>{$spaceships['name']}</summary>";
+                        echo "<summary><img src='{$spaceships['image']}' alt='Image'> {$spaceships['name']} </summary>";
                         echo "<li><strong>Crew Capacity:</strong> {$spaceships['crew_capacity']}</li>";
                         echo "<li><strong>Cargo Capacity:</strong> {$spaceships['cargo_capacity_ton']} tons</li>";
                         echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$spaceships['max_travel_range_parsec']}</li>";

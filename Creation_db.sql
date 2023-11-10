@@ -31,7 +31,8 @@ CREATE TABLE spaceship (
     crew_capacity INT,
     cargo_capacity_ton INT,
     max_travel_range_parsec INT,
-    price INT
+    price INT,
+    image VARCHAR(200)
 );
 
 CREATE TABLE merchant_spaceship (
@@ -190,13 +191,13 @@ INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, rew
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Retrieve Ancient Alien Artifacts from Saturn's Rings", 2, 9, 8, 1, 4500, "Recover ancient alien artifacts hidden within the rings of Saturn");
 
 
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price) VALUES("T-wings", 1, 200, 20, 1500);
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price) VALUES("Starblade", 1, 300, 50, 2500);
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price) VALUES("Nebula Voyager", 2, 500, 400, 4000);
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price) VALUES("Cosmic Explorer", 2, 700, 800, 6000);
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price) VALUES("Galactic Cruiser", 3, 1000, 2000, 8000);
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price) VALUES("Starship Odyssey", 3, 1200, 5500, 10000);
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price) VALUES("Infinity Traveler", 3, 1500, 20000, 15000);
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("T-wings", 1, 200, 20, 1500, "img/T-wings.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Starblade", 1, 300, 50, 2500, "img/starblade.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Nebula Voyager", 2, 500, 400, 4000, "img/nebula_voyager.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Cosmic Explorer", 2, 700, 800, 6000, "img/cosmic_explorer.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Galactic Cruiser", 3, 1000, 2000, 8000, "img/galactic_cruiser.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Starship Odyssey", 3, 1200, 5500, 10000, "img/starship_odyssey.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Infinity Traveler", 3, 1500, 20000, 15000, "img/infinity_traveler.png");
 
 INSERT into merchant_spaceship(id_merchant, id_spaceship)
 VALUES(1, 1);

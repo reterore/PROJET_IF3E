@@ -14,14 +14,13 @@ include('header.php');
         <section class="grid">
             <div>
                 <?php
+
                 // Check if id_spaceship is set in the URL
                 if (isset($_GET['id_spaceship'])) {
                     $id_spaceship = $_GET['id_spaceship'];
 
-                    // Create a database connection (replace with your actual database connection code)
-
                     // Fetch spaceship information based on id_spaceship
-                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price FROM spaceship WHERE id_spaceship = :id_spaceship");
+                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price FROM spaceship WHERE id_spaceship = :id_spaceship ORDER BY max_travel_range_parsec");
                     $query->bindParam(':id_spaceship', $id_spaceship, PDO::PARAM_INT);
                     $query->execute();
                     $spaceship = $query->fetch();

@@ -7,6 +7,7 @@
 <?php
 session_start();
 include('header.php');
+$id_merchant = $_SESSION['id_merchant'];
 ?>
 
 <main class="container">
@@ -18,7 +19,14 @@ include('header.php');
         <section class="grid">
             <div>
                 <?php
-                 $query = $db->prepare("SELECT first_name, last_name, id_ability, recruitment_price, id_crew_member FROM crew_member WHERE in_a_team = 0 ORDER BY recruitment_price");
+                $reqCrédits = $db->prepare("SELECT intergalactic_credits FROM merchant
+                                                    WHERE id_merchant = :id_merchant");
+                $reqCrédits->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
+                $reqCrédits->execute();
+                $dataReq1 = $reqCrédits->fetch();
+                $merchant_credits = $dataReq1[0];
+
+                $query = $db->prepare("SELECT first_name, last_name, id_ability, recruitment_price, id_crew_member FROM crew_member WHERE in_a_team = 0 ORDER BY recruitment_price");
                 $query->execute();
                 $info = $query->fetch();
                 if ($query->rowCount() > 0) {
@@ -43,11 +51,17 @@ include('header.php');
                         $ability = $abilityQuery->fetch();
                         echo "<td>" . $ability[0] . "</td>";
                         echo "<td>" . $info[3] . " ¢</td>";
-                        echo "<td><a href='confirm_recruitment.php?id_crew_member=" . $info[4] . "&recruitment_price=" . $info[3] . "'>>>Recruit<<</a></td>";
 
+                        // Vérifiez si le marchand a assez de crédits pour recruter
+                        if ($info[3] <= $merchant_credits) {
+                            echo "<td><a href='confirm_recruitment.php?id_crew_member=" . $info[4] . "&recruitment_price=" . $info[3] . "'>Recruit</a></td>";
+                        } else {
+                            echo "<td>Not enough credits</td>";
+                        }
+
+                        echo "</tr>";
                         $info = $query->fetch();
                     }
-
 
                     echo "</table>";
                 } else {

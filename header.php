@@ -15,6 +15,8 @@ $id = $data[3];
     <ul>
         <li><a href="connect_to_account.php" role="btn" class="btn secondary">Log Out</a></li>
         <li><a href="home.php" role="btn" class="btn secondary">Home</a></li>
+        <li><a href="my_missions.php" role="btn" class="btn secondary">my missions</a></li>
+
     </ul>
     <ul><li role="list" dir="rtl">
             <a href="" aria-haspopup="listbox">Buy now</a>

@@ -77,13 +77,13 @@ include('header.php');
                 $fnameRequester = $dataCreditsRequester[1];
                 $lnameRequester = $dataCreditsRequester[2];
                 $MissionGain = $priceTon * $capacity;
-                $NewFundsRequester = $CreditsRequester + $MissionGain;
+                $NewFundsRequester = $CreditsRequester + $MissionGain - $reward;
 
                 // Utilisez une variable pour compter le nombre total d'occurrences
                 $totalOccurrences = 0;
 
                 // Utilisez une variable pour suivre les chances de réussite de la mission (55% de base)
-                $successProbability = 55;
+                $successProbability = 40;
 
                 // Utilisez une boucle foreach pour afficher chaque membre de l'équipage
                 foreach ($crewMembers as $crewMember) {
@@ -92,7 +92,7 @@ include('header.php');
                     if ($occurrences > 0) {
                         $totalOccurrences += $occurrences;
                         // Augmentez les chances de réussite de 15% pour chaque membre ayant l'ability de la mission
-                        $successProbability += 15;
+                        $successProbability += 20;
                     }
                 }
 
