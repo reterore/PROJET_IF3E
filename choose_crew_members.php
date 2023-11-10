@@ -18,12 +18,21 @@ include('header.php');
             if (isset($_SESSION['id_merchant'])) {
                 $spaceMerchantId = $_SESSION['id_merchant'];
                 $selectedSpaceship = isset($_POST['selected_spaceship']) ? $_POST['selected_spaceship'] : "";
-                echo "<h2>Selected Spaceship: $selectedSpaceship</h2>";
-                $infoQuery = $db->prepare("SELECT crew_capacity, cargo_capacity_ton, max_travel_range_parsec
-                                FROM spaceship WHERE name = :name");
+                $infoQuery = $db->prepare("SELECT s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, ms.level
+                                FROM spaceship s
+                                INNER JOIN merchant_spaceship ms ON ms.id_spaceship = s.id_spaceship
+                                WHERE name = :name");
                 $infoQuery->bindParam(':name', $selectedSpaceship, PDO::PARAM_STR);
                 $infoQuery->execute();
                 $info = $infoQuery->fetch();
+                echo "<h2>Selected Spaceship: $selectedSpaceship";
+
+// Boucle pour afficher des étoiles en fonction du niveau
+                for ($i = 0; $i < $info['level']; $i++) {
+                    echo " ⛤"; // Caractère d'étoile
+                }
+
+                echo "</h2>";
                 echo "<ul>";
                 echo "<li><strong>Crew Capacity:</strong> {$info['crew_capacity']}</li>";
                 echo "<li><strong>Cargo Capacity:</strong> {$info['cargo_capacity_ton']} kg</li>";
@@ -31,7 +40,6 @@ include('header.php');
                 echo "</ul>";
 
                 $id_mission = $_POST['id_mission'];
-                // Vérifiez le nombre de membres d'équipage disponibles
                 $crewMembersQuery = $db->prepare("SELECT COUNT(*) as total_crew_members
                             FROM merchant_crew
                             WHERE id_merchant = :id_merchant");
@@ -40,7 +48,6 @@ include('header.php');
                 $crewMemberCount = $crewMembersQuery->fetchColumn();
 
                 if ($info['crew_capacity'] <= $crewMemberCount) {
-                    // Assez de membres d'équipage, affichez-les dans des colonnes distinctes
                     echo "<h2>Crew Members:</h2>";
                     echo "<form method='post' action='mission_results.php'>";
                     echo "<input type='hidden' name='selected_spaceship' value='$selectedSpaceship'>";
@@ -77,7 +84,6 @@ include('header.php');
                     echo "<input type='submit' value='Select Crew Members' onclick='return validateForm()'>";
                     echo "</form>";
                 } else {
-                    // Pas assez de membres d'équipage, proposez d'en acheter de nouveaux
                     echo "You don't have enough crew members. <a href='recruit_crew.php' role='button' class='btn primary'>Buy More Crew Members</a>";
                 }
             } else {
@@ -93,15 +99,13 @@ include('header.php');
         var selects = document.querySelectorAll("select");
         var selectedValues = Array.from(selects).map(select => select.value);
 
-        // Vérifie si au moins un des selects est vide
         if (selectedValues.includes("")) {
-            alert("Veuillez sélectionner un membre d'équipage pour chaque place dans le vaisseau.");
+            alert("Please choose a crew member for each seats in the spaceship.");
             return false;
         }
 
-        // Vérifie si deux sélections sont égales
         if (hasDuplicates(selectedValues)) {
-            alert("Veuillez sélectionner des membres d'équipage distincts pour chaque place dans le vaisseau.");
+            alert("Please choose distinct crew members in this spaceship.");
             return false;
         }
 

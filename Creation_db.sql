@@ -38,6 +38,7 @@ CREATE TABLE spaceship (
 CREATE TABLE merchant_spaceship (
     id_merchant INT,
     id_spaceship INT,
+    level INT DEFAULT 1,
     FOREIGN KEY (id_merchant) REFERENCES merchant(id_merchant),
     FOREIGN KEY (id_spaceship) REFERENCES spaceship(id_spaceship)
 );
@@ -126,8 +127,7 @@ INSERT INTO planet(name, distance_from_earth) VALUES("Neptune", 2660);
 INSERT INTO planet(name, distance_from_earth) VALUES("Mercury", 18);
 INSERT INTO planet(name, distance_from_earth) VALUES("Pluto", 3670);
 INSERT INTO planet(name, distance_from_earth) VALUES("Mars", 21);
-INSERT INTO planet(name, distance_from_earth) VALUES("Gaïa", 13057);
-INSERT INTO planet(name, distance_from_earth) VALUES("Uranus", 1660);
+INSERT INTO planet(name, distance_from_earth) VALUES("Gaïa", 6010);
 
 INSERT INTO crew_member (first_name, last_name, id_ability, recruitment_price) VALUES ('John', 'Doe', 1, 500);
 INSERT INTO crew_member (first_name, last_name, id_ability, recruitment_price) VALUES ('Alice', 'Smith', 2, 600);
@@ -168,17 +168,17 @@ INSERT INTO crew_member (first_name, last_name, id_ability, recruitment_price) V
 INSERT INTO merchant(id_merchant, login, password, first_name, last_name, intergalactic_credits)
 VALUES (1, 'guild_account', 'guild_password', 'intergalactic', 'guild', 1000000);
 
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("send Laser to mars", 1, 1, 1, 1, 1000, "you have to bring laser to mars");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Deliver Robot Parts to Earth", 1, 1, 1, 1, 1200, "Transport essential robot components to Earth");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Explore Unknown Planet X", 2, 2, 2, 1, 1500, "Embark on a journey to the mysterious Planet X and gather valuable data");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Rescue Astronauts from Asteroid", 3, 3, 3, 1, 800, "Save stranded astronauts from an asteroid and bring them home safely");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Deliver Medical Supplies to Mars", 4, 4, 4, 1, 1100, "Transport urgently needed medical equipment to the red planet");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Send Laser to Mars", 7, 8, 1, 1, 1000, "you have to bring laser to mars");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Deliver Robot Parts", 4, 1, 1, 1, 1200, "Transport essential robot components");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Bring Food to Gaïa", 5, 2, 2, 1, 1500, "Embark on your spaceship and bring food to Gaïa's inhabitants");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Rescue Astronauts from Asteroid", 9, 3, 3, 1, 800, "Save stranded astronauts from an asteroid and bring them home safely");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Deliver Medical Supplies to Mars", 8, 8, 4, 1, 1100, "Transport urgently needed medical equipment to the red planet");
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Collect Rare Space Crystals", 1, 5, 1, 1, 1700, "Gather unique space crystals from an uncharted planet");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Defend Space Station from Aliens", 2, 6, 2, 1, 900, "Protect a space station from alien invaders in an epic battle");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Study Exotic Alien Flora", 3, 7, 3, 1, 1300, "Examine and document unique alien plant life");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Retrieve Lost Space Probe", 4, 8, 4, 1, 950, "Recover a lost space probe with valuable data");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Luxury Goods to Titan", 1, 9, 1, 1, 1400, "Deliver high-end luxury goods to Saturn's moon, Titan");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Hunt Space Pirates", 2, 10, 2, 1, 1600, "Track down and capture notorious space pirates for a substantial reward");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Defend Space Station from Aliens", 3, 6, 2, 1, 900, "Protect a space station from alien invaders in an epic battle");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Export New Seeds to Create new Type of food on Gaïa", 5, 9, 3, 1, 1300, "New seeds will provide a new light for Gaïa");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Bring Electronics component to Uranus Spatial Base", 4, 4, 4, 1, 950, "They need to fix several pieces on the Base");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Luxury Goods to Titan", 6, 3, 1, 1, 1400, "Deliver high-end luxury goods to Saturn's moon, Titan");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Send New Brand Product to Neptune Merchant", 2, 5, 2, 1, 1600, "Send new brand product to Neptune infamous and greedy merchant ");
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Discover Alien Artifacts on Europa", 5, 2, 4, 1, 2200, "Embark on a mission to explore Europa and retrieve mysterious alien relics");
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Rescue Survivors from a Collapsed Space Station", 6, 1, 7, 1, 2800, "Save stranded survivors from a space station disaster and bring them home");
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Rare Musical Instruments to the Moon", 7, 4, 2, 1, 3100, "Deliver valuable musical instruments to a lunar concert event");
@@ -197,7 +197,9 @@ INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_
 INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Cosmic Explorer", 2, 700, 800, 6000, "img/cosmic_explorer.png");
 INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Galactic Cruiser", 3, 1000, 2000, 8000, "img/galactic_cruiser.png");
 INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Starship Odyssey", 3, 1200, 5500, 10000, "img/starship_odyssey.png");
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Infinity Traveler", 3, 1500, 20000, 15000, "img/infinity_traveler.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Infinity Traveler", 3, 1500, 10000, 15000, "img/infinity_traveler.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Rift Commander", 5, 6000, 50000, 60000 600000, "img/rift_commander.png");
+
 
 INSERT into merchant_spaceship(id_merchant, id_spaceship)
 VALUES(1, 1);

@@ -22,9 +22,9 @@
             var selectedSpaceship = document.getElementById("selected_spaceship").value;
             if (selectedSpaceship === "") {
                 alert("Please select a spaceship before proceeding.");
-                return false; // Empêche le formulaire de se soumettre si aucune option n'est sélectionnée.
+                return false;
             }
-            return true; // Permet au formulaire de se soumettre si une option est sélectionnée.
+            return true;
         }
     </script>
 </head>
@@ -38,13 +38,10 @@ include('header.php');
         <div class="col-4">
             <br>
             <?php
-            // Vérifiez si id_mission est défini dans la requête GET
             if (isset($_GET['id_mission'])) {
                 $id_mission = $_GET['id_mission'];
-                // Connexion à la base de données (à remplacer par vos propres informations de connexion)
 
-                // Préparez la requête pour récupérer les détails de la mission
-                $query = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.description 
+                $query = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.description, planet.distance_from_earth
                                         FROM mission 
                                         JOIN cargo_type ON mission.id_cargo_type = cargo_type.id_cargo_type
                                         JOIN planet ON mission.id_planet = planet.id_planet 
@@ -53,9 +50,7 @@ include('header.php');
                 $query->bindParam(':id_mission', $id_mission, PDO::PARAM_INT);
                 $query->execute();
                 $mission = $query->fetch();
-                // Vérifiez si la mission a été trouvée
                 if ($mission != false) {
-                    // Affichez les détails de la mission
                     echo "<h1>Summary of Mission:</h1>";
                     echo "<p>" . $mission[0] . "</p>";
                     echo "<p><strong>Cargo Type:</strong> " . $mission[1] . "</p>";
@@ -64,7 +59,6 @@ include('header.php');
                     echo "<p><strong>Mission Reward:</strong> " . $mission[4] . " ¢</p>";
                     echo "<p><strong>Description:</strong> " . $mission[5] . "</p>";
                     echo "<a href='home.php' role='button' class='btn secondary'>Cancel this Mission</a>";
-                    // Ajoutez ici d'autres détails de la mission si nécessaire
                 } else {
                     echo "Mission not found.";
                 }
@@ -79,38 +73,48 @@ include('header.php');
                 $spaceMerchantId = $_SESSION['id_merchant'];
                 $missionId = $_GET['id_mission'];
 
-                // Récupérez la portée nécessaire de la mission depuis la base de données
                 $missionRangeQuery = $db->prepare("SELECT p.distance_from_earth
         FROM mission m
         INNER JOIN planet p ON m.id_planet = p.id_planet
         WHERE m.id_mission = :mission_id");
                 $missionRangeQuery->bindParam(':mission_id', $missionId, PDO::PARAM_INT);
                 $missionRangeQuery->execute();
-                $missionRange = $missionRangeQuery->fetchColumn();
+                $dataMissionRange = $missionRangeQuery->fetch();
+                $missionRange = $dataMissionRange[0];
+                $NewMissionRange =
 
-                // Préparez la requête pour récupérer les vaisseaux spatiaux avec une portée suffisante
-                $spaceshipsQuery = $db->prepare("SELECT DISTINCT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec
-        FROM spaceship s
-        INNER JOIN merchant_spaceship ms ON s.id_spaceship = ms.id_spaceship
-        INNER JOIN merchant m ON m.id_merchant = ms.id_merchant
-        WHERE m.id_merchant = :id_merchant
-        AND s.max_travel_range_parsec >= :mission_range");
+                $spaceshipsQuery = $db->prepare("SELECT DISTINCT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, ms.level
+    FROM spaceship s
+    INNER JOIN merchant_spaceship ms ON s.id_spaceship = ms.id_spaceship
+    INNER JOIN merchant m ON m.id_merchant = ms.id_merchant
+    WHERE m.id_merchant = :id_merchant
+    AND (s.max_travel_range_parsec + (s.max_travel_range_parsec * 0.1 * ms.level)) >= :mission_range");
+
                 $spaceshipsQuery->bindParam(':id_merchant', $spaceMerchantId, PDO::PARAM_INT);
                 $spaceshipsQuery->bindParam(':mission_range', $missionRange, PDO::PARAM_INT);
                 $spaceshipsQuery->execute();
                 $spaceships = $spaceshipsQuery->fetchAll();
 
+
+
                 echo "<h4>Spaceships Available for the Mission</h4>";
                 if (!empty($spaceships)) {
-                    // Afficher les données des vaisseaux spatiaux
                     echo "<ul>";
                     foreach ($spaceships as $spacecraft) {
                         echo "<li><details>";
-                        echo "<summary>{$spacecraft['name']}</summary>";
+                        echo "<summary>{$spacecraft['name']}";
+                        for ($i = 0; $i < $spacecraft['level']; $i++) {
+                            echo " ⛤";
+                        }
+                        echo "</summary>";
                         echo "<ul>";
                         echo "<li><strong>Crew Capacity:</strong> {$spacecraft['crew_capacity']}</li>";
                         echo "<li><strong>Cargo Capacity:</strong> {$spacecraft['cargo_capacity_ton']} kg</li>";
-                        echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$spacecraft['max_travel_range_parsec']}</li>";
+
+                        // Calculer la nouvelle portée en fonction du niveau du vaisseau
+                        $newRange = $spacecraft['max_travel_range_parsec'] + ($spacecraft['max_travel_range_parsec'] * 0.1 * ($spacecraft['level']));
+                        echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$newRange}</li>";
+                        $newPlanetRange = $mission['planet'];
                         echo "</ul>";
                         echo "</details></li>";
                     }
@@ -134,31 +138,40 @@ include('header.php');
                     <?php
                     if (isset($_SESSION['id_merchant'])) {
                         $spaceMerchantId = $_SESSION['id_merchant'];
-                        $missionId = $_GET['id_mission'];
+                        $id_mission = $_GET['id_mission'];
 
-                        // Récupérez la portée nécessaire de la mission depuis la base de données
                         $missionRangeQuery = $db->prepare("SELECT p.distance_from_earth
                     FROM mission m
                     INNER JOIN planet p ON m.id_planet = p.id_planet
-                    WHERE m.id_mission = :mission_id");
-                        $missionRangeQuery->bindParam(':mission_id', $missionId, PDO::PARAM_INT);
+                    WHERE m.id_mission = :id_mission");
+                        $missionRangeQuery->bindParam(':id_mission', $id_mission, PDO::PARAM_INT);
                         $missionRangeQuery->execute();
-                        $missionRange = $missionRangeQuery->fetchColumn();
+                        $dataMissionRange = $missionRangeQuery->fetch();
+                        $NewMissionRange = $dataMissionRange[0];
 
-                        $spaceshipsQuery = $db->prepare("SELECT DISTINCT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec
+                        $spaceshipsQuery = $db->prepare("SELECT DISTINCT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, ms.level
                     FROM spaceship s
                     INNER JOIN merchant_spaceship ms ON s.id_spaceship = ms.id_spaceship
                     INNER JOIN merchant m ON m.id_merchant = ms.id_merchant
                     WHERE m.id_merchant = :id_merchant
-                    AND s.max_travel_range_parsec >= :mission_range");
+                    AND (s.max_travel_range_parsec + (s.max_travel_range_parsec * 0.1 * ms.level)) >= :mission_range");
 
                         $spaceshipsQuery->bindParam(':id_merchant', $spaceMerchantId, PDO::PARAM_INT);
-                        $spaceshipsQuery->bindParam(':mission_range', $missionRange, PDO::PARAM_INT);
+                        $spaceshipsQuery->bindParam(':mission_range', $NewMissionRange, PDO::PARAM_INT);
                         $spaceshipsQuery->execute();
 
-                        // Loop through the filtered spaceships and add them to the select options
                         while ($spacecraft = $spaceshipsQuery->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value='" . $spacecraft['name'] . "'>" . $spacecraft['name'] . "</option>";
+                            $maxTravelRange = $spacecraft['max_travel_range_parsec'] + ($spacecraft['max_travel_range_parsec'] * 0.1 * $spacecraft['level']);
+                            $remainingRange = $maxTravelRange - $NewMissionRange;
+
+                            if ($remainingRange >= 0) {
+                                echo "<option value='" . $spacecraft['name'] . "'>";
+                                echo $spacecraft['name'];
+                                for ($i = 0; $i < $spacecraft['level']; $i++) {
+                                    echo " ⛤";
+                                }
+                                echo "</option>";
+                            }
                         }
                     }
                     ?>

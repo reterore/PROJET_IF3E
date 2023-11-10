@@ -36,7 +36,6 @@ include('header.php');
                         <th>Planet</th>
                         <th>Ability</th>
                         <th>Reward</th>
-                        <th>Done</th>
                         <th>Modify</th>
                     </tr>";
                 while ($affichage = $query->fetch()) {
@@ -46,15 +45,7 @@ include('header.php');
                     echo "<td>" . $affichage[2] . "</td>";
                     echo "<td>" . $affichage[3] . "</td>";
                     echo "<td>" . $affichage[4] . " ¢</td>";
-                    if ($affichage[6] == 0){
-                        echo "<td> NO </td>";
-                    }else{
-                        echo "<td> YES </td>";
-
-                    }
-                    if ($affichage[6] == 0){
-                        echo "<td><a href='modify_mission.php?id_mission=" . $affichage[5] . "'>>>modify<<</a></td>";
-                    }
+                    echo "<td><a href='modify_mission.php?id_mission=" . $affichage[5] . "'>>>modify<<</a></td>";
                     echo "</tr>";
                 }
 

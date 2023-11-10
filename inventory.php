@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <title>Login to Your Account</title>
@@ -15,7 +15,6 @@ include('header.php');
     <article class="grid">
         <div>
             <?php
-            // Vérifier si l'utilisateur est connecté
             if (isset($_SESSION['id_merchant'])) {
                 $spaceMerchantId = $_SESSION['id_merchant'];
                 $crewMembersQuery = $db->prepare("SELECT cm.first_name, cm.last_name, a.name
@@ -26,7 +25,7 @@ include('header.php');
                                         WHERE m.id_merchant = :id_merchant");
                 $crewMembersQuery->bindParam(':id_merchant', $spaceMerchantId, PDO::PARAM_INT);
                 $crewMembersQuery->execute();
-                $crewMembers = $crewMembersQuery->fetchAll(); // Utilisez fetchAll() pour obtenir tous les résultats
+                $crewMembers = $crewMembersQuery->fetchAll();
 
                 echo "<h2>Crew Member List</h2>";
                 echo "<ul>";
@@ -35,11 +34,11 @@ include('header.php');
                         echo "<li>{$crewMember['first_name']} {$crewMember['last_name']} ({$crewMember['name']})</li>";
                     }
                 } else {
-                    echo "You don't have any crew members.";
+                    echo "<li>You don't have any crew members.</li>";
                 }
                 echo "</ul>";
             } else {
-                echo "You need to be logged in to view crew member data.";
+                echo "<p>You need to be logged in to view crew member data.</p>";
             }
             ?>
         </div>
@@ -48,7 +47,7 @@ include('header.php');
             <?php
             if (isset($_SESSION['id_merchant'])) {
                 $spaceMerchantId = $_SESSION['id_merchant'];
-                $spaceshipsQuery = $db->prepare("SELECT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, s.image
+                $spaceshipsQuery = $db->prepare("SELECT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, s.image, ms.level, ms.id_spaceship
                                 FROM spaceship s
                                 INNER JOIN merchant_spaceship ms ON s.id_spaceship = ms.id_spaceship
                                 INNER JOIN merchant m ON m.id_merchant = ms.id_merchant
@@ -56,26 +55,43 @@ include('header.php');
                                 ORDER BY max_travel_range_parsec");
                 $spaceshipsQuery->bindParam(':id_merchant', $spaceMerchantId, PDO::PARAM_INT);
                 $spaceshipsQuery->execute();
-                $spaceships = $spaceshipsQuery->fetch(); // Utilisez fetchAll() pour obtenir tous les résultats
+                $spaceships = $spaceshipsQuery->fetchAll(); // Utilisez fetchAll() pour obtenir tous les résultats
 
                 echo "<h2>Spaceships list</h2>";
-                if ($spaceships != null) {
-                    // Afficher les données des vaisseaux spatiaux
-                    while ($spaceships != null) {
+                if (!empty($spaceships)) {
+                    foreach ($spaceships as $spaceship) {
                         echo "<details>";
-                        echo "<summary><img src='{$spaceships['image']}' alt='Image'> {$spaceships['name']} </summary>";
-                        echo "<li><strong>Crew Capacity:</strong> {$spaceships['crew_capacity']}</li>";
-                        echo "<li><strong>Cargo Capacity:</strong> {$spaceships['cargo_capacity_ton']} tons</li>";
-                        echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$spaceships['max_travel_range_parsec']}</li>";
+                        echo "<summary><img src='{$spaceship['image']}' alt='Image'> {$spaceship['name']}";
+
+                        for ($i = 0; $i < $spaceship['level']; $i++) {
+                            echo " ⛤";
+                        }
+                        echo "</summary>";
+
+                        echo "<ul>";
+                        echo "<li><strong>Crew Capacity:</strong> {$spaceship['crew_capacity']}</li>";
+                        echo "<li><strong>Cargo Capacity:</strong> {$spaceship['cargo_capacity_ton']} tons</li>";
+
+                        // Calculer la nouvelle portée en fonction du niveau du vaisseau
+                        $newRange = $spaceship['max_travel_range_parsec'] + ($spaceship['max_travel_range_parsec'] * 0.1 * ($spaceship['level'] - 1));
+                        echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$newRange}</li>";
+
+                        echo "</ul>";
+
+                        if ($spaceship['level'] < 3) {
+                            $id_spaceship = $spaceship['id_spaceship'];
+                            echo "<a href='upgrade_spaceship.php?id_spaceship={$id_spaceship}' class='btn'>-->Upgrade Spaceship<--</a>";
+                        } else {
+                            echo "<p>Your Spaceship is at the maximum level.</p>";
+                        }
+
                         echo "</details>";
-                        $spaceships = $spaceshipsQuery->fetch();
                     }
-                    echo"</details>";
                 } else {
-                    echo "You don't have any spaceships";
+                    echo "<p>You don't have any spaceships</p>";
                 }
             } else {
-                echo "You need to be connected to your account";
+                echo "<p>You need to be connected to your account</p>";
             }
             ?>
         </div>
@@ -83,5 +99,3 @@ include('header.php');
 </main>
 </body>
 </html>
-
-

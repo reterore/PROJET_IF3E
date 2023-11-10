@@ -77,7 +77,8 @@ include('header.php');
                 $fnameRequester = $dataCreditsRequester[1];
                 $lnameRequester = $dataCreditsRequester[2];
                 $MissionGain = $priceTon * $capacity;
-                $NewFundsRequester = $CreditsRequester + $MissionGain - $reward;
+                $differenceFunds = $MissionGain - $reward;
+                $NewFundsRequester = $CreditsRequester + $differenceFunds;
 
                 // Utilisez une variable pour compter le nombre total d'occurrences
                 $totalOccurrences = 0;
@@ -126,7 +127,7 @@ include('header.php');
 
 
                 echo "<h1>Your Mission " . ($missionSuccess ? "Succeed!" : "Failed...") . "</h1>";
-                echo "<p>You " . ($missionSuccess ? "won $reward ¢ and $fnameRequester $lnameRequester won $MissionGain ¢" : "lost $distance ¢") . "</p>";
+                echo "<p>You " . ($missionSuccess ? "won $reward ¢ and $fnameRequester $lnameRequester won $differenceFunds ¢" : "lost $distance ¢") . "</p>";
                 echo "<a href='home.php' class='secondary'>Go back to mission</a>";
                }
             ?>

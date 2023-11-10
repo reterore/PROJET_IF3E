@@ -18,42 +18,46 @@ $id_merchant = $_SESSION['id_merchant'];
         <section class="grid">
             <div>
                 <?php
-
-                $reqCrédits = $db->prepare("SELECT intergalactic_credits FROM merchant
-                                                    WHERE id_merchant = :id_merchant");
-                $reqCrédits->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
-                $reqCrédits->execute();
-                $dataReq1 = $reqCrédits->fetch();
+                $reqCredits = $db->prepare("SELECT intergalactic_credits FROM merchant WHERE id_merchant = :id_merchant");
+                $reqCredits->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
+                $reqCredits->execute();
+                $dataReq1 = $reqCredits->fetch();
                 $merchant_credits = $dataReq1[0];
 
-                $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, id_spaceship, image 
-                                            FROM spaceship");
+                $query = $db->prepare("SELECT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, s.price, s.id_spaceship, s.image
+                                            FROM spaceship s
+                                            LEFT JOIN merchant_spaceship ms ON s.id_spaceship = ms.id_spaceship AND ms.id_merchant = :id_merchant
+                                            WHERE ms.id_merchant IS NULL"); // Exclut les vaisseaux déjà achetés
+                $query->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                 $query->execute();
                 $info = $query->fetch();
+
                 if ($query->rowCount() > 0) {
                     echo "<table border='1'>
-        <tr>
-            <th></th>
-            <th>Model</th>
-            <th>Crew capacity (pers.)</th>
-            <th>Cargo capacity (ton)</th>
-            <th>Max range (parsec)</th>
-            <th>Acquisition Price</th>
-            <th>Buy</th>
-        </tr>";
+                        <tr>
+                            <th></th>
+                            <th>Model</th>
+                            <th>Crew capacity (pers.)</th>
+                            <th>Cargo capacity (ton)</th>
+                            <th>Max range (parsec)</th>
+                            <th>Acquisition Price</th>
+                            <th>Buy</th>
+                        </tr>";
 
                     while ($info != null) {
                         echo "<tr>";
-                        echo "<td><img src='" . $info[6] . "' alt='no image'></td>"; // Affichage de l'image
-                        echo "<td>" . $info[0] . "</td>";
-                        echo "<td>" . $info[1] . "</td>";
-                        echo "<td>" . $info[2] . "</td>";
-                        echo "<td>" . $info[3] . "</td>";
-                        echo "<td>" . $info[4] . " ¢</td>";
+                        echo "<td><img src='" . $info['image'] . "' alt='no image'></td>"; // Affichage de l'image
+                        echo "<td>" . $info['name'];
+                        echo " ⛤";
+                        echo "</td>";
+                        echo "<td>" . $info['crew_capacity'] . "</td>";
+                        echo "<td>" . $info['cargo_capacity_ton'] . "</td>";
+                        echo "<td>" . $info['max_travel_range_parsec'] . "</td>";
+                        echo "<td>" . $info['price'] . " ¢</td>";
 
                         // Vérifiez si le marchand a assez d'argent pour acheter le vaisseau
-                        if ($info[4] <= $merchant_credits) {
-                            echo "<td><a href='confirm_spaceship.php?id_spaceship=" . $info[5] . "'>Buy</a></td>";
+                        if ($info['price'] <= $merchant_credits) {
+                            echo "<td><a href='confirm_spaceship.php?id_spaceship=" . $info['id_spaceship'] . "'>Buy</a></td>";
                         } else {
                             echo "<td>Not enough credits</td>";
                         }
@@ -73,8 +77,3 @@ $id_merchant = $_SESSION['id_merchant'];
 </main>
 </body>
 </html>
-
-
-
-
-

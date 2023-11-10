@@ -129,7 +129,7 @@ $description = $dataMission[5];
                         rows="4"
                         required
                 ><?php echo $description; ?></textarea>
-                <button type="submit" class="primary">Modify Mission For 1000 ¢</button>
+                <button type="submit" class="primary">Modify Mission</button>
                 <a href='home.php' role='button' class='secondary'>Cancel Modification</a>
             </form>
         </div>
