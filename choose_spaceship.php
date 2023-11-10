@@ -111,7 +111,6 @@ include('header.php');
                         echo "<li><strong>Crew Capacity:</strong> {$spacecraft['crew_capacity']}</li>";
                         echo "<li><strong>Cargo Capacity:</strong> {$spacecraft['cargo_capacity_ton']} kg</li>";
 
-                        // Calculer la nouvelle portée en fonction du niveau du vaisseau
                         $newRange = $spacecraft['max_travel_range_parsec'] + ($spacecraft['max_travel_range_parsec'] * 0.1 * ($spacecraft['level']));
                         echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$newRange}</li>";
                         $newPlanetRange = $mission['planet'];

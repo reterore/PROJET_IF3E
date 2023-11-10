@@ -27,7 +27,7 @@ $id_merchant = $_SESSION['id_merchant'];
                 $query = $db->prepare("SELECT s.name, s.crew_capacity, s.cargo_capacity_ton, s.max_travel_range_parsec, s.price, s.id_spaceship, s.image
                                             FROM spaceship s
                                             LEFT JOIN merchant_spaceship ms ON s.id_spaceship = ms.id_spaceship AND ms.id_merchant = :id_merchant
-                                            WHERE ms.id_merchant IS NULL"); // Exclut les vaisseaux déjà achetés
+                                            WHERE ms.id_merchant IS NULL");
                 $query->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                 $query->execute();
                 $info = $query->fetch();
@@ -46,7 +46,7 @@ $id_merchant = $_SESSION['id_merchant'];
 
                     while ($info != null) {
                         echo "<tr>";
-                        echo "<td><img src='" . $info['image'] . "' alt='no image'></td>"; // Affichage de l'image
+                        echo "<td><img src='" . $info['image'] . "' alt='no image'></td>";
                         echo "<td>" . $info['name'];
                         echo " ⛤";
                         echo "</td>";
@@ -55,7 +55,6 @@ $id_merchant = $_SESSION['id_merchant'];
                         echo "<td>" . $info['max_travel_range_parsec'] . "</td>";
                         echo "<td>" . $info['price'] . " ¢</td>";
 
-                        // Vérifiez si le marchand a assez d'argent pour acheter le vaisseau
                         if ($info['price'] <= $merchant_credits) {
                             echo "<td><a href='confirm_spaceship.php?id_spaceship=" . $info['id_spaceship'] . "'>Buy</a></td>";
                         } else {

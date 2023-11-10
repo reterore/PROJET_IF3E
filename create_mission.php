@@ -17,7 +17,6 @@ $reward = 0;
 $description = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérez les données du formulaire
     $mission_name = $_POST["mission_name"];
     $cargo_type = $_POST["cargo_type"];
     $planet = $_POST["planet"];
@@ -25,19 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $reward = $_POST["reward"];
     $description = $_POST["description"];
 
-    // Récupérez l'ID du marchand à partir de la session, assurez-vous qu'il est correctement stocké dans $_SESSION['id_merchant']
     $id_merchant = $_SESSION['id_merchant'];
 
-    // Récupérez le solde du marchand
     $reqCredits = $db->prepare("SELECT intergalactic_credits FROM merchant WHERE id_merchant = :id_merchant");
     $reqCredits->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
     $reqCredits->execute();
     $credits = $reqCredits->fetch()[0];
 
-    // Vérifiez si le marchand a suffisamment d'argent pour créer la mission
     if ($reward <= $credits && $credits >= 1000) {
         if ($reward >=0){
-            // Insérez la mission dans la base de données
             $insertMission = $db->prepare("INSERT INTO mission (name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES (:mission_name, :cargo_type, :planet, :ability, :merchant_id, :reward, :description)");
             $insertMission->bindParam(':mission_name', $mission_name, PDO::PARAM_STR);
             $insertMission->bindParam(':cargo_type', $cargo_type, PDO::PARAM_INT);
@@ -46,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $insertMission->bindParam(':merchant_id', $id_merchant, PDO::PARAM_INT);
             $insertMission->bindParam(':reward', $reward, PDO::PARAM_INT);
             $insertMission->bindParam(':description', $description, PDO::PARAM_STR);
-            $insertMission->execute(); // Exécutez la requête pour insérer la mission
+            $insertMission->execute();
             $newFunds = $credits - 1000;
             $changeNewFunds = $db->prepare("UPDATE merchant SET intergalactic_credits = :newFunds WHERE id_merchant = :id_merchant");
             $changeNewFunds->bindParam(':newFunds', $newFunds, PDO::PARAM_INT);
@@ -56,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }else{
             echo "<script>alert('your reward is not valid!');</script>";
         }
-                // Réinitialisez les variables du formulaire
         $mission_name = "";
         $cargo_type = "";
         $planet = "";

@@ -48,7 +48,6 @@ $merchantFunds = $dataMerchant['intergalactic_credits'];
                 echo "<li><strong>Crew Capacity:</strong> {$spaceships['crew_capacity']}</li>";
                 echo "<li><strong>Cargo Capacity:</strong> {$spaceships['cargo_capacity_ton']} tons</li>";
 
-                // Calculer la nouvelle portée en fonction du niveau du vaisseau
                 $newRange = $spaceships['max_travel_range_parsec'] + ($spaceships['max_travel_range_parsec'] * 0.1 * ($spaceships['level']));
                 echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$newRange}</li>";
 
@@ -57,7 +56,6 @@ $merchantFunds = $dataMerchant['intergalactic_credits'];
                 if ($spaceships['level'] < 3) {
                     echo "<p>Upgrading your spaceship allows you to go further without spending more on resources!</p>";
 
-                    // Vérifier si le marchand a assez de fonds
                     if ($merchantFunds >= $priceUpgrade) {
                         echo "<a href='validate_upgrade.php?id_spaceship={$spaceships['id_spaceship']}' role='button' class='btn'>Upgrade Spaceship for $priceUpgrade ¢</a>";
                     } else {

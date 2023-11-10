@@ -22,22 +22,18 @@ include('header.php');
             $doerNewFunds = 0;
             $changeDoerFunds = "";
 
-            // Réinitialisez les valeurs POST
             $_POST = array();
 
-            // Vérifiez si la mission est déjà "done"
             $reqCheckMission = $db->prepare("SELECT done FROM mission WHERE id_mission = :id_mission");
             $reqCheckMission->bindParam(':id_mission', $id_mission, PDO::PARAM_INT);
             $reqCheckMission->execute();
             $missionStatus = $reqCheckMission->fetchColumn();
 
             if ($missionStatus == 1) {
-                // Si la mission est déjà "done", affichez un message d'erreur et empêchez le traitement
                 echo "<h1>Mission Already Completed</h1>";
                 echo "<p>This mission has already been completed and cannot be repeated.</p>";
                 echo "<a href='home.php' class='secondary'>Go back to mission</a>";
             } else {
-                // Si la mission n'a pas encore été "done", continuez le traitement
                 $reqMerchant = $db->prepare("SELECT * FROM merchant WHERE id_merchant = :id_merchant;");
                 $reqMerchant->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                 $reqMerchant->execute();
@@ -80,24 +76,18 @@ include('header.php');
                 $differenceFunds = $MissionGain - $reward;
                 $NewFundsRequester = $CreditsRequester + $differenceFunds;
 
-                // Utilisez une variable pour compter le nombre total d'occurrences
                 $totalOccurrences = 0;
 
-                // Utilisez une variable pour suivre les chances de réussite de la mission (55% de base)
                 $successProbability = 40;
 
-                // Utilisez une boucle foreach pour afficher chaque membre de l'équipage
                 foreach ($crewMembers as $crewMember) {
-                    // Utilisez substr_count pour compter le nombre d'occurrences de $ability_mission dans $crewMember
                     $occurrences = substr_count($crewMember, $ability_mission);
                     if ($occurrences > 0) {
                         $totalOccurrences += $occurrences;
-                        // Augmentez les chances de réussite de 15% pour chaque membre ayant l'ability de la mission
                         $successProbability += 20;
                     }
                 }
 
-                // Affichez les chances de réussite de la mission
                 echo "<script>alert('Chances of Succeeding The Mission : $successProbability%');</script>";
 
                 echo "<br>";
@@ -119,7 +109,6 @@ include('header.php');
                     $doerNewFunds = $creditsMerchant - $distance;
                 }
 
-                // Mettez à jour les fonds du marchand
                 $changeDoerFunds = $db->prepare("UPDATE merchant SET intergalactic_credits = :newFunds WHERE id_merchant = :id_merchant");
                 $changeDoerFunds->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                 $changeDoerFunds->bindParam(':newFunds', $doerNewFunds, PDO::PARAM_INT);

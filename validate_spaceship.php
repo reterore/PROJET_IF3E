@@ -18,7 +18,6 @@ include('header.php');
                 $purchasePrice = $_GET['price'];
                 $id_merchant = $_SESSION['id_merchant'];
 
-                // Vérifier si le marchand possède déjà ce modèle de vaisseau spatial
                 $checkOwnership = $db->prepare("SELECT COUNT(*) FROM merchant_spaceship WHERE id_merchant = :id_merchant AND id_spaceship = :id_spaceship");
                 $checkOwnership->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                 $checkOwnership->bindParam(':id_spaceship', $id_spaceship, PDO::PARAM_INT);
@@ -29,24 +28,19 @@ include('header.php');
                     echo "<h2>Already Owned</h2>";
                     echo "<p>You already own this model of spaceship.</p>";
                 } else {
-                    // Récupérer les fonds actuels du marchand
                     $fundsQuery = $db->prepare("SELECT intergalactic_credits FROM merchant WHERE id_merchant = :id_merchant");
                     $fundsQuery->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                     $fundsQuery->execute();
                     $currentFunds = $fundsQuery->fetchColumn();
 
-                    // Vérifier si les fonds sont suffisants pour acheter le vaisseau
                     if ($currentFunds >= $purchasePrice) {
-                        // Calculer les nouveaux fonds après l'achat
                         $newFunds = $currentFunds - $purchasePrice;
 
-                        // Mettre à jour les fonds du marchand
                         $updateFundsQuery = $db->prepare("UPDATE merchant SET intergalactic_credits = :new_funds WHERE id_merchant = :id_merchant");
                         $updateFundsQuery->bindParam(':new_funds', $newFunds, PDO::PARAM_INT);
                         $updateFundsQuery->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                         $updateFundsQuery->execute();
 
-                        // Ajouter le vaisseau spatial acheté dans la table "merchant_spaceships"
                         $addSpaceship = $db->prepare("INSERT INTO merchant_spaceship(id_merchant, id_spaceship) VALUES(:id_merchant, :id_spaceship)");
                         $addSpaceship->bindParam(':id_merchant', $id_merchant, PDO::PARAM_INT);
                         $addSpaceship->bindParam(':id_spaceship', $id_spaceship, PDO::PARAM_INT);

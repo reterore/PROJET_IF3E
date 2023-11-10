@@ -15,11 +15,9 @@ include('header.php');
             <div>
                 <?php
 
-                // Check if id_spaceship is set in the URL
                 if (isset($_GET['id_spaceship'])) {
                     $id_spaceship = $_GET['id_spaceship'];
 
-                    // Fetch spaceship information based on id_spaceship
                     $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price FROM spaceship WHERE id_spaceship = :id_spaceship ORDER BY max_travel_range_parsec");
                     $query->bindParam(':id_spaceship', $id_spaceship, PDO::PARAM_INT);
                     $query->execute();
@@ -42,7 +40,6 @@ include('header.php');
                         echo "<p><strong>Price:</strong> " . $spaceship['price'] . " ¢</p>";
 
                         if ($spaceMerchantFunds[0] >= $spaceshipPrice) {
-                            // Affichez le bouton de confirmation d'achat
                             echo "<a href='spaceship.php' role='button' class='secondary'>Cancel purchase</a>";
                             echo " ";
                             echo "<a href='validate_spaceship.php?id_spaceship=$id_spaceship&price=" . $spaceship['price'] . "' role='button' class='btn primary'>Confirm purchase</a>";
@@ -54,11 +51,9 @@ include('header.php');
                         }
                     } else {
                         echo "Invalid spaceship selection.";
-                        // Affichez un bouton de retour vers la page précédente
                     }
                 } else {
                     echo "Spaceship not selected. Please go back to the spaceships page.";
-                    // Affichez un bouton de retour vers la page précédente
                 }
                 ?>
                 <br>

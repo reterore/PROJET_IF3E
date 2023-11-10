@@ -12,20 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login = $_POST["login"];
     $password = $_POST["password"];
 
-    // Vérifiez si le login et le mot de passe correspondent dans la base de données
     $checkUser = $db->prepare("SELECT * FROM merchant WHERE login = :login AND password = :password");
     $checkUser->bindParam(':login', $login, PDO::PARAM_STR);
     $checkUser->bindParam(':password', $password, PDO::PARAM_STR);
     $checkUser->execute();
     $user = $checkUser->fetch();
     if ($user != null) {
-        // Redirigez vers la page d'accueil avec les paramètres d'UR
         session_start();
         $_SESSION['id_merchant'] = $user[0];
         header("Location: home.php");
         exit;
     } else {
-        // Affiche un message d'alerte si le login ou le mot de passe est incorrect
         echo "<script>alert('Login or password is incorrect. Please try again.')</script>";
     }
 }

@@ -3,6 +3,12 @@
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <title>Create Your Account</title>
+    <style>
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <?php
@@ -11,6 +17,7 @@ $db = new PDO("mysql:host=localhost; dbname=space_merchant; charset=utf8", "root
 $first_name = "";
 $last_name = "";
 $login = "";
+$error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = $_POST["first_name"];
@@ -18,16 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login = $_POST["login"];
     $password = $_POST["password"];
 
-    // Vérifiez si le login existe déjà dans la base de données
     $checkLogin = $db->prepare("SELECT COUNT(*) FROM merchant WHERE login = :login");
     $checkLogin->bindParam(':login', $login, PDO::PARAM_STR);
     $checkLogin->execute();
     $count = $checkLogin->fetchColumn();
 
     if ($count > 0) {
-        echo "<script>alert('Login already exists. Please choose a different login.')</script>";
+        $error_message = "Sorry, this login is already taken. Please choose a different one.";
     } else {
-        // Le login n'existe pas, insérez les données dans la base de données
         $insertUser = $db->prepare("INSERT INTO merchant (first_name, last_name, login, password, intergalactic_credits) VALUES (:first_name, :last_name, :login, :password, 3000)");
         $insertUser->bindParam(':first_name', $first_name, PDO::PARAM_STR);
         $insertUser->bindParam(':last_name', $last_name, PDO::PARAM_STR);
@@ -35,12 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insertUser->bindParam(':password', $password, PDO::PARAM_STR);
 
         if ($insertUser->execute()) {
-            echo "<script>alert('Account created successfully. You can now login.')</script>";
-            // Utilisez la fonction sleep() pour une temporisation de 0,5 seconde
-            sleep(1);
             header("Location: connect_to_account.php");
-                    } else {
-            echo "<script>alert('An error occurred while creating the account. Please try again.')</script>";
+        } else {
+            $error_message = "An error occurred while creating the account. Please try again.";
         }
     }
 }
@@ -53,8 +55,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <hgroup>
                 <h1>Create Your Account</h1>
-                <h2>access a world of possibilities</h2>
+                <h2>Access a world of possibilities</h2>
             </hgroup>
+            <?php if (!empty($error_message)) : ?>
+                <div class="error-message"><?= $error_message ?></div>
+            <?php endif; ?>
             <form method="post">
                 <input
                         type="text"
@@ -63,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         aria-label="first_name"
                         autocomplete="first_name"
                         required
+                        value="<?= htmlspecialchars($first_name) ?>"
                 />
                 <input
                         type="text"
@@ -71,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         aria-label="last_name"
                         autocomplete="last_name"
                         required
+                        value="<?= htmlspecialchars($last_name) ?>"
                 />
                 <input
                         type="text"
@@ -90,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 />
                 <button type="submit" class="contrast">Create Account</button>
             </form>
-            <a href="connect_to_account.php" role="btn" class="btn contrast">already have an account?</a>
+            <a href="connect_to_account.php?login=" role="btn" class="btn contrast">Already have an account?</a>
         </div>
         <div></div>
     </article>

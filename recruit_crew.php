@@ -44,7 +44,6 @@ $id_merchant = $_SESSION['id_merchant'];
                         echo "<td>" . $info[0] . "</td>";
                         echo "<td>" . $info[1] . "</td>";
 
-                        // Récupérez le nom de l'ability à partir de la table d'abilities en utilisant id_ability
                         $abilityQuery = $db->prepare("SELECT name FROM ability WHERE id_ability = :id_ability");
                         $abilityQuery->bindParam(':id_ability', $info[2], PDO::PARAM_INT);
                         $abilityQuery->execute();
@@ -52,7 +51,6 @@ $id_merchant = $_SESSION['id_merchant'];
                         echo "<td>" . $ability[0] . "</td>";
                         echo "<td>" . $info[3] . " ¢</td>";
 
-                        // Vérifiez si le marchand a assez de crédits pour recruter
                         if ($info[3] <= $merchant_credits) {
                             echo "<td><a href='confirm_recruitment.php?id_crew_member=" . $info[4] . "&recruitment_price=" . $info[3] . "'>Recruit</a></td>";
                         } else {

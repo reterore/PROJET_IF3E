@@ -27,7 +27,6 @@ include('header.php');
                 $info = $infoQuery->fetch();
                 echo "<h2>Selected Spaceship: $selectedSpaceship";
 
-// Boucle pour afficher des étoiles en fonction du niveau
                 for ($i = 0; $i < $info['level']; $i++) {
                     echo " ⛤"; // Caractère d'étoile
                 }

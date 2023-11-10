@@ -9,16 +9,13 @@
 session_start();
 include('header.php');
 
-// Vérifiez si id_mission est défini dans l'URL
 if (isset($_GET['id_mission'])) {
     $id_mission = $_GET['id_mission'];
 }
 
 $id_merchant = $_SESSION['id_merchant'];
 
-// Vérifiez si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupérez les données du formulaire
     $mission_name = $_POST['mission_name'];
     $cargo_type = $_POST['cargo_type'];
     $planet = $_POST['planet'];
@@ -27,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $id_mission = $_POST['id_mission'];
 
-    // Créez une requête SQL pour mettre à jour la mission
     $updateQuery = $db->prepare("UPDATE mission
                                 SET name = :mission_name,
                                     id_cargo_type = :cargo_type,
@@ -45,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updateQuery->bindParam(':description', $description, PDO::PARAM_STR);
     $updateQuery->bindParam(':id_mission', $id_mission, PDO::PARAM_INT);
 
-    // Exécutez la requête SQL
     if ($updateQuery->execute()) {
         echo "<p>Mission updated successfully.</p>";
     } else {
@@ -53,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Récupérez à nouveau les données de la mission après la mise à jour
 $req1 = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.description
                     FROM mission
                     JOIN cargo_type ON mission.id_cargo_type = cargo_type.id_cargo_type

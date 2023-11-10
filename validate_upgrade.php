@@ -17,7 +17,6 @@ include('header.php');
                 $id_merchant = $_SESSION['id_merchant'];
                 $id_spaceship = $_GET['id_spaceship'];
 
-                // Vérifier si le membre d'équipage n'a pas déjà été recruté
                 $levelUpgrade = $db->prepare("SELECT level , price
                                                         FROM spaceship s
                                                         INNER JOIN merchant_spaceship ms ON ms.id_spaceship = s.id_spaceship

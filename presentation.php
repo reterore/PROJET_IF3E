@@ -5,16 +5,6 @@
     <title>Our Project</title>
 </head>
 <body>
-<?php
-$db = new PDO("mysql:host=localhost; dbname=space_merchant; charset=utf8", "sa", "rasta");
-$query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image FROM spaceship WHERE name = 'infinity traveler';");
-$query->execute();
-$info = $query->fetch();
-$imageURL = $info[5]; // L'URL de l'image
-
-// Assurez-vous que l'image existe avant de l'afficher
-?>
-
 
 <main class="container">
     <article class="grid-fluid">
