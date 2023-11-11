@@ -45,7 +45,7 @@
             <div class="grid">
                 <div>
                     <form action="create_account.php" method="get">
-                        <button href="Create_account.php" role="button" class="btn contrast">Create an Account</button>
+                        <button href="create_account.php" role="button" class="btn contrast">Create an Account</button>
                     </form>
                 </div>
                 <div>
