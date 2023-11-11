@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th>Planet (distance)</th>
                         <th>Ability</th>
                         <th>Reward</th>
-                        <th>See details</th>
+                        <th>details</th>
                     </tr>";
 
                 while ($affichage = $query->fetch()) {

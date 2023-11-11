@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($count > 0) {
         $error_message = "Sorry, this login is already taken. Please choose a different one.";
     } else {
-        $insertUser = $db->prepare("INSERT INTO merchant (first_name, last_name, login, password, intergalactic_credits) VALUES (:first_name, :last_name, :login, :password, 3000)");
+        $insertUser = $db->prepare("INSERT INTO merchant (first_name, last_name, login, password, intergalactic_credits) VALUES (:first_name, :last_name, :login, :password, 5000)");
         $insertUser->bindParam(':first_name', $first_name, PDO::PARAM_STR);
         $insertUser->bindParam(':last_name', $last_name, PDO::PARAM_STR);
         $insertUser->bindParam(':login', $login, PDO::PARAM_STR);
