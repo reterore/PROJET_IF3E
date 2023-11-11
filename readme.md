@@ -8,3 +8,8 @@ cd PROJET_IF3E
 mysqladmin create space_merchant
 cat Creation_db.sql | mysql -C space_merchant 
 ```
+
+start the project with: index.php
+
+
+

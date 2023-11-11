@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <main class="container">
     <article class="grid">
-        <a href="login.php" role="btn" class="btn secondary">go back</a>
+        <a href="index.php" role="btn" class="btn secondary">go back</a>
         <div>
             <hgroup>
                 <h1>Login to Your Account</h1>

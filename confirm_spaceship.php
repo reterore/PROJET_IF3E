@@ -18,7 +18,7 @@ include('header.php');
                 if (isset($_GET['id_spaceship'])) {
                     $id_spaceship = $_GET['id_spaceship'];
 
-                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price FROM spaceship WHERE id_spaceship = :id_spaceship ORDER BY max_travel_range_parsec");
+                    $query = $db->prepare("SELECT name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image FROM spaceship WHERE id_spaceship = :id_spaceship ORDER BY max_travel_range_parsec");
                     $query->bindParam(':id_spaceship', $id_spaceship, PDO::PARAM_INT);
                     $query->execute();
                     $spaceship = $query->fetch();
@@ -33,8 +33,8 @@ include('header.php');
                         $spaceMerchantFunds = $checkFundsQuery->fetch();
 
                         echo "<h2>Spaceship Details</h2>";
-                        echo "<p><strong>Name:</strong> " . $spaceship['name'] . "</p>";
-                        echo "<p><strong>Crew Capacity:</strong> " . $spaceship['crew_capacity'] . "</p>";
+                        echo "<p><strong>Name:</strong> " . $spaceship['name'] . " ⛤</p>";
+                        echo "<img src='" . $spaceship['image'] . "' alt='" . $spaceship['name'] . "' style='max-width: 100%; height: auto;'>";                        echo "<p><strong>Crew Capacity:</strong> " . $spaceship['crew_capacity'] . "</p>";
                         echo "<p><strong>Cargo Capacity (kg):</strong> " . $spaceship['cargo_capacity_ton'] . "</p>";
                         echo "<p><strong>Max Travel Range (parsec):</strong> " . $spaceship['max_travel_range_parsec'] . "</p>";
                         echo "<p><strong>Price:</strong> " . $spaceship['price'] . " ¢</p>";

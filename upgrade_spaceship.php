@@ -49,8 +49,7 @@ $merchantFunds = $dataMerchant['intergalactic_credits'];
                 echo "<li><strong>Cargo Capacity:</strong> {$spaceships['cargo_capacity_ton']} tons</li>";
 
                 $newRange = $spaceships['max_travel_range_parsec'] + ($spaceships['max_travel_range_parsec'] * 0.1 * ($spaceships['level']));
-                echo "<li><strong>Maximum Travel Range in Parsecs:</strong> {$newRange}</li>";
-
+                echo "<li><strong>Maximum Travel Range in Parsecs:</strong> <span style='color: green;'>{$newRange} ↑</span> </li>";
                 echo "</ul>";
 
                 if ($spaceships['level'] < 3) {

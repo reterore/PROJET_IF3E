@@ -5,12 +5,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <link rel="stylesheet" href="styles.css">
     <title>Welcome to homepage!</title>
-
     <style>
-        .btn-container {
-            display: flex;
-            align-items: center;
-        }</style>
+
+        .full-width-btn {
+            width: 100%;
+            box-sizing: border-box; /* Optional: include padding and border in the element's total width */
+        }
+
+    </style>
 </head>
 
 <?php
@@ -21,6 +23,7 @@ $id_merchant = $_SESSION['id_merchant'];
 <body>
 <?php
 include('header.php');
+
 $req = $db->prepare("SELECT first_name, last_name, intergalactic_credits, id_merchant FROM merchant WHERE id_merchant = :id_merchant");
 $req->bindParam(':id_merchant', $id_merchant, PDO::PARAM_STR);
 $req->execute();
@@ -29,6 +32,18 @@ $first_name = $data[0];
 $last_name = $data[1];
 $intergalactic_credits = $data[2];
 $id = $data[3];
+
+$selected_cargo = '';
+$selected_planet = '';
+$selected_ability = '';
+$selected_reward = 0;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $selected_cargo = isset($_POST['selected_cargo']) ? $_POST['selected_cargo'] : '';
+    $selected_planet = isset($_POST['selected_planet']) ? $_POST['selected_planet'] : '';
+    $selected_ability = isset($_POST['selected_ability']) ? $_POST['selected_ability'] : '';
+    $selected_reward = isset($_POST['selected_reward']) ? (int)$_POST['selected_reward'] : 0;
+}
 ?>
 
 <main class="container">
@@ -43,7 +58,8 @@ $id = $data[3];
                         $cargos = $db->prepare("SELECT type FROM cargo_type ORDER BY type");
                         $cargos->execute();
                         while ($cargo = $cargos->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value='" . $cargo['type'] . "'>" . $cargo['type'] . "</option>";
+                            $selected = ($cargo['type'] == $selected_cargo) ? 'selected' : '';
+                            echo "<option value='" . $cargo['type'] . "' $selected>" . $cargo['type'] . "</option>";
                         }
                         ?>
                     </select>
@@ -53,14 +69,15 @@ $id = $data[3];
                     <select name="selected_planet" id="selected_planet">
                         <option value="">All</option>
                         <?php
-                        $planets = $db->prepare("SELECT name FROM planet ORDER BY name");
+                        $planets = $db->prepare("SELECT name, distance_from_earth FROM planet ORDER BY distance_from_earth");
                         $planets->execute();
                         while ($planet = $planets->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value='" . $planet['name'] . "'>" . $planet['name'] . "</option>";
-                        }
+                            $selected = ($planet['name'] == $selected_planet) ? 'selected' : '';
+                            echo "<option value='" . $planet['name'] . "' $selected>" . $planet['name'] . " (" . $planet['distance_from_earth'] . ")</option>";                        }
                         ?>
                     </select>
                 </li>
+
                 <li role="list" dir="rtl">
                     <label for="selected_ability">:ability</label>
                     <select name="selected_ability" id="selected_ability">
@@ -69,18 +86,20 @@ $id = $data[3];
                         $abilities = $db->prepare("SELECT name FROM ability ORDER BY name");
                         $abilities->execute();
                         while ($ability = $abilities->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value='" . $ability['name'] . "'>" . $ability['name'] . "</option>";
+                            $selected = ($ability['name'] == $selected_ability) ? 'selected' : '';
+                            echo "<option value='" . $ability['name'] . "'$selected>" . $ability['name'] . "</option>";
                         }
                         ?>
                     </select>
                 </li>
+
                 <li role="list" dir="rtl">
                     <label for="selected_reward">:Minimal Reward</label>
-                    <input type="text" name="selected_reward" id="selected_reward">
+                    <input type="text" value="<?php echo $selected_reward; ?>" name="selected_reward" id="selected_reward">
                 </li>
                 <li>
                     <br>
-                    <button type="submit">>Filter Missions<</button>
+                    <button type="submit">〔 Filter 〕</button>
                 </li>
             </ul>
         </form>
@@ -100,7 +119,7 @@ $id = $data[3];
             $selected_ability = isset($_POST['selected_ability']) ? $_POST['selected_ability'] : '';
             $selected_reward = isset($_POST['selected_reward']) ? (int)$_POST['selected_reward'] : 0;
 
-            $query = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.id_mission 
+            $query = $db->prepare("SELECT mission.name, cargo_type.type, planet.name, ability.name, reward, mission.id_mission, planet.distance_from_earth
                                   FROM mission 
                                   JOIN cargo_type ON mission.id_cargo_type = cargo_type.id_cargo_type
                                   JOIN planet ON mission.id_planet = planet.id_planet 
@@ -123,7 +142,7 @@ $id = $data[3];
                     <tr>
                         <th>Mission</th>
                         <th>Cargo</th>
-                        <th>Planet</th>
+                        <th>Planet (distance)</th>
                         <th>Ability</th>
                         <th>Reward</th>
                         <th>See details</th>
@@ -133,11 +152,10 @@ $id = $data[3];
                     echo "<tr>";
                     echo "<td>" . $affichage[0] . "</td>";
                     echo "<td>" . $affichage[1] . "</td>";
-                    echo "<td>" . $affichage[2] . "</td>";
-                    echo "<td>" . $affichage[3] . "</td>";
+                    echo "<td>" . $affichage[2] . " (" . $affichage[6] . ")</td>";                    echo "<td>" . $affichage[3] . "</td>";
                     echo "<td>" . $affichage[4] . " ¢</td>";
 
-                    echo "<td><a href='consult_mission.php?id_mission=" . $affichage[5] . "'>| more info |</a></td>";
+                    echo "<td><a href='consult_mission.php?id_mission=" . $affichage[5] . "'>『info』</a></td>";
                     echo "</tr>";
                 }
 

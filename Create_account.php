@@ -12,7 +12,7 @@
 </head>
 
 <?php
-$db = new PDO("mysql:host=localhost; dbname=space_merchant; charset=utf8", "root", "");
+$db = new PDO("mysql:host=localhost; dbname=space_merchant; charset=utf8", "sa", "rasta");
 
 $first_name = "";
 $last_name = "";
@@ -51,11 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <main class="container">
     <article class="grid">
-        <a href="login.php" role="btn" class="btn secondary">go back</a>
+        <a href="index.php" role="btn" class="btn secondary">go back</a>
         <div>
             <hgroup>
                 <h1>Create Your Account</h1>
-                <h2>Access a world of possibilities</h2>
+                <h2>Access a world full of possibilities</h2>
             </hgroup>
             <?php if (!empty($error_message)) : ?>
                 <div class="error-message"><?= $error_message ?></div>

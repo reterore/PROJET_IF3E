@@ -51,7 +51,9 @@ include('header.php');
 
                 echo "</table>";
             } else {
-                echo "You did not create any mission.";
+                echo "You did not create any mission:";
+                echo "<br>";
+                echo '<a href="create_mission.php" role="button">Create a New Mission Now</a>';
             }
             ?>
         </div>
