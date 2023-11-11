@@ -29,7 +29,7 @@
 <blockquote>
     "Join us and embark on an intergalactic journey beyond your wildest dreams."
     <footer>
-        <cite>-Vigny Lucas | Davias Alexis-</cite>
+        <cite>-Vigny Lucas | Davias Alexisz-</cite>
     </footer>
     <br>
     <a href="presentation.php" class="btn secondary">Learn more about our project</a>

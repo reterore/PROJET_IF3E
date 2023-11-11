@@ -105,16 +105,16 @@ INSERT INTO ability(name, description) VALUES ("Mechanic", "increases your chanc
 INSERT INTO ability(name, description) VALUES ("Negotiator", "increases your chance to succeed in missions that require negotiation and diplomacy");
 INSERT INTO ability(name, description) VALUES ("Medic", "increases your chance to succeed in missions that require medical expertise");
 
-INSERT INTO cargo_type (type, price_by_ton) VALUES ("Minerals", 6);
-INSERT INTO cargo_type (type, price_by_ton) VALUES ("Foods", 3);
+INSERT INTO cargo_type (type, price_by_ton) VALUES ("Minerals", 7);
+INSERT INTO cargo_type (type, price_by_ton) VALUES ("Foods", 5);
 INSERT INTO cargo_type (type, price_by_ton) VALUES ("Weaponry", 8);
 INSERT INTO cargo_type (type, price_by_ton) VALUES ("Components", 7);
-INSERT INTO cargo_type (type, price_by_ton) VALUES ("Agricultural Products", 2);
+INSERT INTO cargo_type (type, price_by_ton) VALUES ("Agricultural Products", 4);
 INSERT INTO cargo_type (type, price_by_ton) VALUES ("Luxury Goods", 10);
-INSERT INTO cargo_type (type, price_by_ton) VALUES ("Electronics", 5);
-INSERT INTO cargo_type (type, price_by_ton) VALUES ("Medicine", 2);
+INSERT INTO cargo_type (type, price_by_ton) VALUES ("Electronics", 7);
+INSERT INTO cargo_type (type, price_by_ton) VALUES ("Medicine", 8);
 INSERT INTO cargo_type (type, price_by_ton) VALUES ("Machinery", 6);
-INSERT INTO cargo_type (type, price_by_ton) VALUES ("Textiles", 3);
+INSERT INTO cargo_type (type, price_by_ton) VALUES ("Textiles", 5);
 INSERT INTO cargo_type (type, price_by_ton) VALUES ("Chemicals", 7);
 INSERT INTO cargo_type (type, price_by_ton) VALUES ("Vehicles", 6);
 
@@ -180,15 +180,15 @@ INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, rew
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Luxury Goods to Titan", 6, 3, 1, 1, 1400, "Deliver high-end luxury goods to Saturn's moon, Titan");
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Send New Brand Product to Neptune Merchant", 2, 5, 2, 1, 1600, "Send new brand product to Neptune infamous and greedy merchant ");
 INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Discover Alien Artifacts on Europa", 5, 2, 4, 1, 2200, "Embark on a mission to explore Europa and retrieve mysterious alien relics");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Rescue Survivors from a Collapsed Space Station", 6, 1, 7, 1, 2800, "Save stranded survivors from a space station disaster and bring them home");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Rare Musical Instruments to the Moon", 7, 4, 2, 1, 3100, "Deliver valuable musical instruments to a lunar concert event");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Defend Earth from an Asteroid Threat", 8, 1, 8, 1, 3300, "Protect Earth from an incoming asteroid by intercepting it and altering its course");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Explore a Subterranean Martian Cave", 9, 3, 6, 1, 4200, "Investigate the depths of a Martian cave system and document its unique environment");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Colonize a New Exoplanet", 10, 5, 1, 1, 6000, "Lead the effort to establish a human colony on an uncharted exoplanet");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Rescue an Alien Diplomat", 11, 6, 3, 1, 2400, "Retrieve a stranded alien diplomat and ensure interstellar diplomacy");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Precious Gemstones to Venus", 12, 9, 5, 1, 3700, "Deliver a valuable cargo of gemstones to Venus for an exclusive auction");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Study Microscopic Life on an Asteroid", 1, 8, 4, 1, 2800, "Examine and document microscopic life forms on a traveling asteroid");
-INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Retrieve Ancient Alien Artifacts from Saturn's Rings", 2, 9, 8, 1, 4500, "Recover ancient alien artifacts hidden within the rings of Saturn");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Rescue Survivors from a Collapsed Space Station", 6, 1, 7, 1, 1800, "Save stranded survivors from a space station disaster and bring them home");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Rare Musical Instruments to the Moon", 7, 4, 2, 1, 2000, "Deliver valuable musical instruments to a lunar concert event");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Defend Earth from an Asteroid Threat", 8, 1, 8, 1, 2300, "Protect Earth from an incoming asteroid by intercepting it and altering its course");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Explore a Subterranean Martian Cave", 9, 3, 6, 1, 2400, "Investigate the depths of a Martian cave system and document its unique environment");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Colonize a New Exoplanet", 10, 5, 1, 1, 2000, "Lead the effort to establish a human colony on an uncharted exoplanet");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Rescue an Alien Diplomat", 11, 6, 3, 1, 1400, "Retrieve a stranded alien diplomat and ensure interstellar diplomacy");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Transport Precious Gemstones to Venus", 12, 9, 5, 1, 1700, "Deliver a valuable cargo of gemstones to Venus for an exclusive auction");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Study Microscopic Life on an Asteroid", 1, 8, 4, 1, 1800, "Examine and document microscopic life forms on a traveling asteroid");
+INSERT INTO mission(name, id_cargo_type, id_planet, id_ability, id_merchant, reward, description) VALUES ("Retrieve Ancient Alien Artifacts from Saturn's Rings", 2, 9, 8, 1, 1500, "Recover ancient alien artifacts hidden within the rings of Saturn");
 
 
 INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("T-wings", 1, 200, 20, 1500, "img/T-wings.png");
@@ -198,4 +198,4 @@ INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_
 INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Galactic Cruiser", 3, 1000, 2000, 8000, "img/galactic_cruiser.png");
 INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Starship Odyssey", 3, 1200, 5500, 10000, "img/starship_odyssey.png");
 INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Infinity Traveler", 3, 1500, 10000, 15000, "img/infinity_traveler.png");
-INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Rift Commander", 5, 6000, 50000, 60000, 600000, "img/rift_commander.png");
+INSERT INTO spaceship(name, crew_capacity, cargo_capacity_ton, max_travel_range_parsec, price, image) VALUES("Rift Commander", 5, 50000, 60000, 600000, "img/rift_commander.png");

@@ -61,7 +61,6 @@ include('header.php');
                         echo "<h2>Upgrade Successful</h2>";
                         echo "<p>Your Spaceship now have a better range for more mission!</p>";
                     }else{
-                        echo $upgradePrice;
                         echo "not enough credit to do the upgrade";
                     }
                 }
